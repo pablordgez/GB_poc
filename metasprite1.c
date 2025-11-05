@@ -1,4 +1,4 @@
-#pragma bank 2
+#pragma bank 255
 #include "metasprite1.h"
 
 uint8_t metasprite1_1[] =

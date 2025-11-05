@@ -1,7 +1,7 @@
-#include <stdint.h>
+#pragma bank 255
 #include "smile.h"
 
-uint8_t smile_sprite[] = {
+unsigned char smile_sprite[] = {
     0x7E, 0x7E,
     0x81, 0x81,
     0x81, 0xA5,
@@ -12,7 +12,7 @@ uint8_t smile_sprite[] = {
     0x7E, 0x7E
 };
 
-uint8_t smile_serious[] = {
+unsigned char smile_serious[] = {
     0x7E, 0x7E,
     0x81, 0x81,
     0x81, 0xA5,
@@ -22,3 +22,11 @@ uint8_t smile_serious[] = {
     0x81, 0x81,
     0x7E, 0x7E
 };
+
+unsigned char* get_smile_sprite(void) BANKED{
+    return smile_sprite;
+}
+
+unsigned char* get_smile_serious(void) BANKED{
+    return smile_serious;
+}

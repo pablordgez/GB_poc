@@ -34,6 +34,7 @@ void free_sprite_manager(SpriteManager* manager) {
     manager->entries = (void*)0;
     manager->count = 0;
     manager->max_count = 0;
+    free(manager);
 }
 
 int is_sprite_manager_initialized(SpriteManager* manager) {
@@ -42,15 +43,17 @@ int is_sprite_manager_initialized(SpriteManager* manager) {
 
 
 SpriteEntry* get_sprites(SpriteManager* manager, uint8_t start_id, uint8_t num_sprites) {
-    if(start_id + num_sprites > manager->count) {
-        return (void*)0; // Out of bounds
-    }
     SpriteEntry* sprites = malloc(sizeof(SpriteEntry*) * num_sprites);
     if(!sprites) {
         return (void*)0; // Memory allocation failed
     }
     for(uint8_t i = 0; i < num_sprites; i++) {
+        if(!get_sprite(manager, start_id + i)) {
+            free(sprites);
+            return (void*)0; // One of the sprites not found
+        }
         sprites[i] = *get_sprite(manager, start_id + i);
     }
     return sprites;
 }
+

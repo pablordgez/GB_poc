@@ -10,7 +10,7 @@ endif
 
 LCC = $(GBDK_HOME)bin/lcc
 
-# GBDK_DEBUG = ON
+#GBDK_DEBUG = ON
 GBDK_ROM_BANKING = ON
 ifdef GBDK_DEBUG
 	LCCFLAGS += -debug -v

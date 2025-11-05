@@ -1,6 +1,8 @@
 #ifndef SPRITE_MANAGER_H
 #define SPRITE_MANAGER_H
+
 #include <stdint.h>
+#include <gb/gb.h>
 
 typedef struct{
     uint8_t id;
