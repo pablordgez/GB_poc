@@ -26,6 +26,7 @@ void main(void)
     free_sprite_manager(&sprite_manager);
 
     DISPLAY_ON;
+    SHOW_SPRITES;
     while(1) {
         vsync();
         if(joypad() & J_RIGHT) {
@@ -41,12 +42,5 @@ void main(void)
             move_player(&p, 0, 10);
         }
         update_player(&p);
-
-
-		// Game main loop processing goes here
-
-
-		// Done processing, yield CPU and wait for start of next frame
-        
     }
 }

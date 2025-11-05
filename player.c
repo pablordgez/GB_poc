@@ -33,7 +33,6 @@ void init_player(struct player* p, uint16_t x, uint16_t y, uint8_t width, uint8_
             set_sprite_tile(sprite_id, first_tile);
             move_sprite(0, p->drawX, p->drawY);
         }
-        SHOW_SPRITES;
     }
     
     free(sprites);

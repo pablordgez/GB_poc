@@ -8,7 +8,7 @@ ifndef GBDK_HOME
 	GBDK_HOME = ../
 endif
 
-LCC = $(GBDK_HOME)bin/lcc 
+LCC = $(GBDK_HOME)bin/lcc
 
 # GBDK_DEBUG = ON
 GBDK_ROM_BANKING = ON
@@ -17,8 +17,7 @@ ifdef GBDK_DEBUG
 endif
 ifdef GBDK_ROM_BANKING
 	LCCFLAGS += -Wl-yt0x1B
-	LCCFLAGS += -Wl-yoA
-	LCCFLAGS += -Wl-ya16
+	LCCFLAGS += -Wm-ya4
 	LCCFLAGS += -autobank
 endif
 
