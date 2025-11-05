@@ -5,7 +5,7 @@
 #include "player.h"
 
 
-void init_player(Player* p, uint16_t x, uint16_t y, uint8_t width, uint8_t height, uint8_t sprite_id, uint8_t first_tile, uint8_t num_sprites, uint8_t frames_per_sprite, SpriteManager* sprite_manager) {
+void init_player(Player* p, uint16_t x, uint16_t y, uint8_t width, uint8_t height, uint8_t sprite_id, uint8_t first_tile, uint8_t num_sprites, uint8_t frames_per_sprite, SpaceManager* sprite_manager) {
     init_actor(&p->base, x, y, width, height, sprite_id, first_tile, num_sprites, frames_per_sprite, sprite_manager);
 }
 

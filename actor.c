@@ -1,7 +1,7 @@
 #include "actor.h"
 #include <stdio.h>
 
-void init_actor(Actor* actor, uint16_t x, uint16_t y, uint8_t width, uint8_t height, uint8_t sprite_id, uint8_t first_tile, uint8_t num_sprites, uint8_t frames_per_sprite, SpriteManager* sprite_manager) {
+void init_actor(Actor* actor, uint16_t x, uint16_t y, uint8_t width, uint8_t height, uint8_t sprite_id, uint8_t first_tile, uint8_t num_sprites, uint8_t frames_per_sprite, SpaceManager* sprite_manager) {
     actor->x = x;
     actor->y = y;
     actor->width = width;
@@ -15,24 +15,19 @@ void init_actor(Actor* actor, uint16_t x, uint16_t y, uint8_t width, uint8_t hei
     actor->current_sprite = 0;
     actor->current_frame = 0;
 
-    if(!is_sprite_manager_initialized(sprite_manager)) {
-        return; // Sprite manager not initialized
-    }
-    SpriteEntry* sprites = get_sprites(sprite_manager, sprite_id, num_sprites);
-    if(sprites != (void*)0) {
-        for(uint8_t i = 0; i < num_sprites; i++) {
-            set_sprite_data(first_tile + i * (width * height), width * height, sprites[i].data);
-        }
-        if(width > 1 || height > 1) {
-            init_metasprite(actor);
-        } else {
-            set_sprite_tile(sprite_id, first_tile);
-            move_sprite(sprite_id, actor->drawX, actor->drawY);
-            actor->metasprite = (void*)0;
+    for(uint8_t i = 0; i < num_sprites; i++) {
+        uint8_t* sprite_data = get_space_data(sprite_manager, sprite_id, i);
+        if(sprite_data != (void*)0) {
+            set_sprite_data(first_tile + i * (width * height), width * height, sprite_data);
         }
     }
-    
-    free(sprites);
+    if(width > 1 || height > 1) {
+        init_metasprite(actor);
+    } else {
+        set_sprite_tile(sprite_id, first_tile);
+        move_sprite(sprite_id, actor->drawX, actor->drawY);
+        actor->metasprite = (void*)0;
+    }
 }
 
 void init_metasprite(Actor* actor) {

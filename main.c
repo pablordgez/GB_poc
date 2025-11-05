@@ -1,11 +1,10 @@
 #include <gb/gb.h>
 #include <stdint.h>
 #include <stdio.h>
-#include "sprite_manager.h"
 #include "player.h"
 #include "metasprite1.h"
 #include "smile.h"
-#include "tile_manager.h"
+#include "space_manager.h"
 
 void main(void)
 {
@@ -16,28 +15,29 @@ void main(void)
         }
         wait_vbl_done();
     }
-    SpriteManager sprite_manager;
-    init_sprite_manager(&sprite_manager, 4);
-    TileManager tile_manager;
-    init_tile_manager(&tile_manager, 40);
-    SpriteEntry character_entry = {0, metasprite1_1_get_tiles()};
-    SpriteEntry character_entry2 = {1, metasprite1_2_get_tiles()};
-    SpriteEntry smile_entry1 = {4, get_smile_sprite()};
-    SpriteEntry smile_entry2 = {5, get_smile_serious()};
-    add_sprite(&sprite_manager, character_entry);
-    add_sprite(&sprite_manager, character_entry2);
-    add_sprite(&sprite_manager, smile_entry1);
-    add_sprite(&sprite_manager, smile_entry2);
+    SpaceManager sprite_manager;
+    init_space_manager(&sprite_manager, MAX_HARDWARE_SPRITES);
+    SpaceManager sprite_tile_manager;
+    init_space_manager_no_data(&sprite_tile_manager, 128);
+    uint8_t player_sprite_slot = get_free_space(&sprite_manager, 4);
+    register_space(&sprite_manager, 0, metasprite1_1_get_tiles());
+    register_space(&sprite_manager, 4, metasprite1_2_get_tiles());
+    uint8_t player_sprite_1_tile = get_free_space(&sprite_tile_manager, 8);
+    register_space_no_data(&sprite_tile_manager, 8);
     Player p;
-    uint8_t free_tile_position = get_free_tiles_position(&tile_manager, 8);
-    TileEntry new_tile = {free_tile_position, 8};
-    register_tiles(&tile_manager, new_tile);
-    init_player(&p, 1280, 1152, 2, 2, 0, free_tile_position, 2, 60, &sprite_manager);
+    init_player(&p, 1280, 1152, 2, 2, player_sprite_slot, player_sprite_1_tile, 2, 60, &sprite_manager);
+
+
+    uint8_t smile_sprite_slot = get_free_space(&sprite_manager, 1);
+    register_space(&sprite_manager, 0, get_smile_sprite());
+    register_space(&sprite_manager, 1, get_smile_serious());
+    uint8_t smile_sprite_tile = get_free_space(&sprite_tile_manager, 2);
+    register_space_no_data(&sprite_tile_manager, 2);
     Actor a;
-    free_tile_position = get_free_tiles_position(&tile_manager, 2);
-    init_actor(&a, 1600, 1152, 1, 1, 4, free_tile_position, 2, 120, &sprite_manager);
-    free_sprite_manager(&sprite_manager);
-    free_tile_manager(&tile_manager);
+    init_actor(&a, 1600, 1152, 1, 1, smile_sprite_slot, smile_sprite_tile, 2, 120, &sprite_manager);
+
+    free_space_manager(&sprite_manager);
+    free_space_manager(&sprite_tile_manager);
 
     DISPLAY_ON;
     SHOW_SPRITES;
