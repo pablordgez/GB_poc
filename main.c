@@ -5,9 +5,15 @@
 #include "metasprite1.h"
 #include "smile.h"
 #include "space_manager.h"
+#include "map.h"
+#include "map1.h"
 
 void main(void)
 {
+
+    BGP_REG = DMG_PALETTE(DMG_BLACK, DMG_WHITE, DMG_LITE_GRAY, DMG_DARK_GRAY);
+    OBP0_REG =OBP1_REG =DMG_PALETTE(DMG_WHITE, DMG_LITE_GRAY, DMG_DARK_GRAY,  DMG_BLACK );
+
     // Loop forever
     while(1){
         if(joypad() & J_START){
@@ -19,6 +25,7 @@ void main(void)
     init_space_manager(&sprite_manager, MAX_HARDWARE_SPRITES);
     SpaceManager sprite_tile_manager;
     init_space_manager_no_data(&sprite_tile_manager, 128);
+
     uint8_t player_sprite_slot = get_free_space(&sprite_manager, 4);
     register_space(&sprite_manager, 0, metasprite1_1_get_tiles());
     register_space(&sprite_manager, 4, metasprite1_2_get_tiles());
@@ -39,10 +46,19 @@ void main(void)
     free_space_manager(&sprite_manager);
     free_space_manager(&sprite_tile_manager);
 
+    Map map;
+    init_map(&map, 32, 32, map1_tileset, map1_tilemap);
+
     DISPLAY_ON;
+    SHOW_BKG;
     SHOW_SPRITES;
+
+    uint8_t changed_palette = 0;
+    uint8_t prev_joy = 0;
+
     while(1) {
         vsync();
+    
         if(joypad() & J_RIGHT) {
             move_player(&p, 10, 0);
         }
@@ -58,6 +74,17 @@ void main(void)
         if(joypad() & J_A) {
             printf("Player position: (%u, %u)\n", p.base.x, p.base.y);
         }
+        if(joypad() & J_B && !(prev_joy & J_B)) {
+            if(changed_palette == 0){
+                OBP0_REG = DMG_PALETTE(DMG_BLACK, DMG_DARK_GRAY, DMG_LITE_GRAY, DMG_WHITE);
+                changed_palette = 1;
+            }
+            else{
+                OBP0_REG = DMG_PALETTE(DMG_WHITE, DMG_LITE_GRAY, DMG_DARK_GRAY,  DMG_BLACK );
+                changed_palette = 0;
+            }
+        }
+        prev_joy = joypad();
         update_player(&p);
         update_actor(&a);
     }
