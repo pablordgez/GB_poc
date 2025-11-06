@@ -26,9 +26,15 @@ void main(void)
     SpaceManager sprite_tile_manager;
     init_space_manager_no_data(&sprite_tile_manager, 128);
 
+    BANKREF_EXTERN(metasprite1)
+    BANKREF_EXTERN(smile)
+
     uint8_t player_sprite_slot = get_free_space(&sprite_manager, 4);
-    register_space(&sprite_manager, 0, metasprite1_1_get_tiles());
-    register_space(&sprite_manager, 4, metasprite1_2_get_tiles());
+    uint8_t prev_bank = _current_bank;
+    SWITCH_ROM(BANK(metasprite1));
+    register_space(&sprite_manager, 0, metasprite1_1, _current_bank);
+    register_space(&sprite_manager, 4, metasprite1_2, _current_bank);
+    SWITCH_ROM(prev_bank);
     uint8_t player_sprite_1_tile = get_free_space(&sprite_tile_manager, 8);
     register_space_no_data(&sprite_tile_manager, 8);
     Player p;
@@ -36,8 +42,11 @@ void main(void)
 
 
     uint8_t smile_sprite_slot = get_free_space(&sprite_manager, 1);
-    register_space(&sprite_manager, 0, get_smile_sprite());
-    register_space(&sprite_manager, 1, get_smile_serious());
+    prev_bank = _current_bank;
+    SWITCH_ROM(BANK(smile));
+    register_space(&sprite_manager, 0, smile_sprite, _current_bank);
+    register_space(&sprite_manager, 1, smile_serious, _current_bank);
+    SWITCH_ROM(prev_bank);
     uint8_t smile_sprite_tile = get_free_space(&sprite_tile_manager, 2);
     register_space_no_data(&sprite_tile_manager, 2);
     Actor a;

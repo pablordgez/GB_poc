@@ -30,11 +30,11 @@ uint8_t get_free_space(SpaceManager* manager, uint8_t size) {
     return manager->last_allocated;
 }
 
-void register_space(SpaceManager* manager, uint8_t size, uint8_t* data) {
+void register_space(SpaceManager* manager, uint8_t size, const uint8_t* data, uint8_t bank) {
     if(manager->space_data == (void*)0) {
         return; // Space manager not initialized with data
     }
-    SpaceEntry entry = {data, manager->last_allocated};
+    SpaceEntry entry = {data, manager->last_allocated, bank};
     if(manager->last_allocated + size > manager->spaces) {
         return; // Not enough space
     }
@@ -61,13 +61,13 @@ void register_space_no_data(SpaceManager* manager, uint8_t size) {
     manager->used_memory_spaces += 1;
 }
 
-uint8_t* get_space_data(SpaceManager* manager, uint8_t slot, uint8_t offset) {
+const SpaceEntry* get_space_entry(SpaceManager* manager, uint8_t slot, uint8_t offset) {
     for(uint8_t i = 0; i < manager->used_memory_spaces; i++) {
         if(manager->space_data[i].slot == slot){
             if(i + offset >= manager->used_memory_spaces) {
                 return (void*)0; // Offset out of bounds
             }
-            return manager->space_data[i + offset].data;
+            return &manager->space_data[i + offset];
         }
     }
     return (void*)0; // Slot not found

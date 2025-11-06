@@ -16,9 +16,12 @@ void init_actor(Actor* actor, uint16_t x, uint16_t y, uint8_t width, uint8_t hei
     actor->current_frame = 0;
 
     for(uint8_t i = 0; i < num_sprites; i++) {
-        uint8_t* sprite_data = get_space_data(sprite_manager, sprite_id, i);
+        const SpaceEntry* sprite_data = get_space_entry(sprite_manager, sprite_id, i);
         if(sprite_data != (void*)0) {
-            set_sprite_data(first_tile + i * (width * height), width * height, sprite_data);
+            uint8_t prev_bank = _current_bank;
+            SWITCH_ROM(sprite_data->bank);
+            set_sprite_data(first_tile + i * (width * height), width * height, sprite_data->data);
+            SWITCH_ROM(prev_bank);
         }
     }
     if(width > 1 || height > 1) {
