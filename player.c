@@ -13,11 +13,10 @@ void init_metasprite_player(Player* p) {
     init_metasprite(&p->base);
 }
 
-
 void move_player(Player* p, int8_t dx, int8_t dy) {
     move_actor(&p->base, dx, dy);
 }
 
-void update_player(Player* p) {
-    update_actor(&p->base);
+void update_player_frame(Player* p) {
+    update_actor_frame(&p->base);
 }

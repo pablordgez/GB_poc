@@ -22,4 +22,4 @@ typedef struct{
 void init_actor(Actor* actor, uint16_t x, uint16_t y, uint8_t width, uint8_t height, uint8_t sprite_id, uint8_t first_tile, uint8_t num_sprites, uint8_t frames_per_sprite, SpaceManager* sprite_manager);
 void init_metasprite(Actor* actor);
 void move_actor(Actor* actor, int8_t dx, int8_t dy);
-void update_actor(Actor* actor);
+void update_actor_frame(Actor* actor);

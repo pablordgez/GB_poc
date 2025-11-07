@@ -74,7 +74,7 @@ void move_actor(Actor* actor, int8_t dx, int8_t dy) {
     }
 }
 
-void update_actor(Actor* actor) {
+void update_actor_frame(Actor* actor) {
     actor->current_frame++;
     if(actor->current_frame < actor->frames_per_sprite) {
         return;
