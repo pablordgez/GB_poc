@@ -3,26 +3,14 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-typedef struct{
-    const uint8_t* data;
-    uint8_t slot;
-    uint8_t bank;
-} SpaceEntry;
 
 typedef struct{
-    uint8_t spaces;
-    uint8_t memory_spaces;
-    uint8_t last_allocated;
-    uint8_t used_memory_spaces;
-    SpaceEntry* space_data;
+    uint8_t* spaces;
+    uint8_t total_spaces;
 } SpaceManager;
 
+void init_space_manager(SpaceManager* manager, uint8_t num_spaces);
+uint8_t register_space(SpaceManager* manager, uint8_t size);
+void remove_spaces(SpaceManager* manager, uint8_t slot, uint8_t size);
 
-void init_space_manager(SpaceManager* manager, uint8_t spaces);
-void init_space_manager_no_data(SpaceManager* manager, uint8_t spaces);
-uint8_t get_free_space(SpaceManager* manager, uint8_t size);
-void register_space(SpaceManager* manager, uint8_t size, const uint8_t* data, uint8_t bank);
-void register_space_no_data(SpaceManager* manager, uint8_t size);
-void free_space_manager(SpaceManager* manager);
-const SpaceEntry* get_space_entry(SpaceManager* manager, uint8_t slot, uint8_t offset);
 #endif

@@ -1,74 +1,77 @@
 #include "space_manager.h"
 
-void init_space_manager(SpaceManager* manager, uint8_t spaces) {
-    manager->spaces = spaces;
-    manager->memory_spaces = spaces;
-    manager->last_allocated = 0;
-    manager->used_memory_spaces = 0;
-    manager->space_data = (SpaceEntry*)malloc(spaces * sizeof(SpaceEntry));
-    if(!manager->space_data) {
-        manager->spaces = 0;
+void init_space_manager(SpaceManager* manager, uint8_t num_spaces){
+    // each space uses only 1 bit, so each entry is 8 spaces
+    uint8_t num_bytes = (num_spaces + 7) / 8;
+    manager->spaces = (uint8_t*)malloc(num_bytes);
+    manager->total_spaces = num_spaces;
+    if(manager->spaces == (void*)0){
+        return; // Memory allocation failed
     }
 }
 
-void init_space_manager_no_data(SpaceManager* manager, uint8_t spaces) {
-    manager->spaces = spaces;
-    manager->last_allocated = 0;
-    manager->space_data = (void*)0;
-}
+uint8_t register_space(SpaceManager* manager, uint8_t size) {
+    uint8_t block_start = 0;
+    uint8_t consecutive_free = 0;
+    for(uint8_t slot = 0; slot < manager->total_spaces; slot++){
+        /*
+            slot >> 3 = slot / 8
+            si queremos mirar un slot en el primer byte, por ejemplo, 2, nos va a dar 0, primer byte
+            si queremos mirar un slot en el tercer byte, por ejemplo, 20, nos va a dar 2, tercer byte
 
-void free_space_manager(SpaceManager* manager) {
-    free(manager->space_data);
-    manager->spaces = 0;
-    manager->last_allocated = 0;
-}
+            slot & 7 = slot % 8
+            queremos saber qué bit es dentro del byte
+            si queremos mirar el slot 2, nos va a dar 2, tercer bit
+            si queremos mirar el slot 20, nos va a dar 4, quinto bit
 
-uint8_t get_free_space(SpaceManager* manager, uint8_t size) {
-    if(manager->last_allocated + size > manager->spaces) {
-        return 0; // Not enough space
-    }
-    return manager->last_allocated;
-}
+            1 << (slot & 7)
+            un byte con un 1 en la posición del bit que queremos mirar
 
-void register_space(SpaceManager* manager, uint8_t size, const uint8_t* data, uint8_t bank) {
-    if(manager->space_data == (void*)0) {
-        return; // Space manager not initialized with data
-    }
-    SpaceEntry entry = {data, manager->last_allocated, bank};
-    if(manager->last_allocated + size > manager->spaces) {
-        return; // Not enough space
-    }
-    if(manager->used_memory_spaces + 1 > manager->memory_spaces) {
-        // reallocate memory
-        uint8_t new_size = manager->memory_spaces * 2;
-        SpaceEntry* new_space_data = (SpaceEntry*)realloc(manager->space_data, new_size * sizeof(SpaceEntry));
-        if(!new_space_data) {
-            return; // Memory allocation failed
-        }
-        manager->space_data = new_space_data;
-        manager->memory_spaces = new_size;
-    }
-    manager->space_data[manager->used_memory_spaces] = entry;
-    manager->last_allocated += size;
-    manager->used_memory_spaces += 1;
-}
-
-void register_space_no_data(SpaceManager* manager, uint8_t size) {
-    if(manager->last_allocated + size > manager->spaces) {
-        return; // Not enough space
-    }
-    manager->last_allocated += size;
-    manager->used_memory_spaces += 1;
-}
-
-const SpaceEntry* get_space_entry(SpaceManager* manager, uint8_t slot, uint8_t offset) {
-    for(uint8_t i = 0; i < manager->used_memory_spaces; i++) {
-        if(manager->space_data[i].slot == slot){
-            if(i + offset >= manager->used_memory_spaces) {
-                return (void*)0; // Offset out of bounds
+            al hacer & con el byte en el que está el slot y un byte con un 1 en la posición del bit que queremos mirar, nos da 1 si está ocupado, 0 si está libre
+        */
+        if((manager->spaces[slot >> 3] & (1 << (slot & 7))) == 0){
+            if(consecutive_free == 0){
+                block_start = slot;
             }
-            return &manager->space_data[i + offset];
+            consecutive_free++;
+            if(consecutive_free == size){
+                // Mark spaces as used
+                for(uint8_t i = block_start; i < block_start + size; i++){
+                    /*
+                        i >> 3 nos da el byte en el que está el slot i
+                        |= es un operador OR de asignación, similar a los operadores aritméticos como +=, pero con el operador OR
+                        (1 << (i & 7)) nos da un byte con un 1 en la posición del bit del slot i
+                        al hacer |= con el byte en el que está el slot i y un byte con un 1 en la posición del bit del slot i, marcamos ese bit como ocupado
+                    */
+                    manager->spaces[i >> 3] |= (1 << (i & 7));
+                }
+                return block_start;
+            }
+        } else {
+            consecutive_free = 0;
         }
     }
-    return (void*)0; // Slot not found
+    return 0; // Not enough space
 }
+
+
+void remove_spaces(SpaceManager* manager, uint8_t slot, uint8_t size) {
+    if(slot >= manager->total_spaces) {
+        return; // Invalid slot
+    }
+    /*
+        slot >> 3 nos da el byte en el que está el slot
+        ~(1 << (slot & 7)) nos da un byte con un 0 en la posición del bit del slot y 1s en las demás posiciones
+        al hacer &= con el byte en el que está el slot y un byte con un 0 en la posición del bit del slot, marcamos ese bit como libre
+    */
+    for(uint8_t i = slot; i < slot + size; i++){
+        /*
+            i >> 3 nos da el byte en el que está el slot i
+            &= es un operador AND de asignación, similar a los operadores aritméticos como +=, pero con el operador AND
+            ~(1 << (i & 7)) nos da un byte con un 0 en la posición del bit del slot i y 1s en las demás posiciones
+            al hacer &= con el byte en el que está el slot i y un byte con un 0 en la posición del bit del slot i, marcamos ese bit como libre
+        */
+        manager->spaces[i >> 3] &= ~(1 << (i & 7));
+    }
+}
+

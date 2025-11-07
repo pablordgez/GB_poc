@@ -3,10 +3,8 @@ void init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint
     anim->number_of_frames = num_frames;
     anim->frame_duration = frame_dur;
     anim->sprite_id = sprite_id;
-    anim->sprite_slot = get_free_space(sprite_manager, 1);
-    register_space_no_data(sprite_manager, 1);
-    anim->start_tile = get_free_space(tile_manager, num_frames);
-    register_space_no_data(tile_manager, num_frames);
+    anim->sprite_slot = register_space(sprite_manager, 1);
+    anim->start_tile = register_space(tile_manager, num_frames);
     anim->current_frame = 0;
     anim->frame_counter = 0;
     anim->metasprite = (void*)0;
@@ -16,10 +14,8 @@ void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t fram
     anim->number_of_frames = num_frames;
     anim->frame_duration = frame_dur;
     anim->sprite_id = sprite_id;
-    anim->sprite_slot = get_free_space(sprite_manager, width * height);
-    register_space_no_data(sprite_manager, width * height);
-    anim->start_tile = get_free_space(tile_manager, num_frames * width * height);
-    register_space_no_data(tile_manager, num_frames * width * height);
+    anim->sprite_slot = register_space(sprite_manager, width * height);
+    anim->start_tile = register_space(tile_manager, num_frames * width * height);
     anim->current_frame = 0;
     anim->frame_counter = 0;
     anim->width = width;

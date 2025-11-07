@@ -25,43 +25,12 @@ void main(void)
     SpaceManager sprite_manager;
     init_space_manager(&sprite_manager, MAX_HARDWARE_SPRITES);
     SpaceManager sprite_tile_manager;
-    init_space_manager_no_data(&sprite_tile_manager, 128);
+    init_space_manager(&sprite_tile_manager, 128);
     animation_initialization(&sprite_manager, &sprite_tile_manager);
     Player p;
     init_player(&p, 1280, 1152, animations[ASSET_METASPRITE1]);
     Actor a;
     init_actor(&a, 1600, 1152, animations[ASSET_SMILE]);
-
-    /*
-    BANKREF_EXTERN(metasprite1)
-    BANKREF_EXTERN(smile)
-
-    uint8_t player_sprite_slot = get_free_space(&sprite_manager, 4);
-    uint8_t prev_bank = _current_bank;
-    SWITCH_ROM(BANK(metasprite1));
-    register_space(&sprite_manager, 0, metasprite1_1, _current_bank);
-    register_space(&sprite_manager, 4, metasprite1_2, _current_bank);
-    SWITCH_ROM(prev_bank);
-    uint8_t player_sprite_1_tile = get_free_space(&sprite_tile_manager, 8);
-    register_space_no_data(&sprite_tile_manager, 8);
-    Player p;
-    init_player(&p, 1280, 1152, 2, 2, player_sprite_slot, player_sprite_1_tile, 2, 60, &sprite_manager);
-
-
-    uint8_t smile_sprite_slot = get_free_space(&sprite_manager, 1);
-    prev_bank = _current_bank;
-    SWITCH_ROM(BANK(smile));
-    register_space(&sprite_manager, 0, smile_sprite, _current_bank);
-    register_space(&sprite_manager, 1, smile_serious, _current_bank);
-    SWITCH_ROM(prev_bank);
-    uint8_t smile_sprite_tile = get_free_space(&sprite_tile_manager, 2);
-    register_space_no_data(&sprite_tile_manager, 2);
-    Actor a;
-    init_actor(&a, 1600, 1152, 1, 1, smile_sprite_slot, smile_sprite_tile, 2, 120, &sprite_manager);
-
-    free_space_manager(&sprite_manager);
-    free_space_manager(&sprite_tile_manager);
-    */
 
     Map map;
     init_map(&map, 32, 32, map1_tileset, map1_tilemap);

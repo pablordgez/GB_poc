@@ -25,5 +25,4 @@ void update_actor_frame(Actor* actor) {
     } else{
         update_animation_metasprite(actor->current_animation, actor->drawX, actor->drawY);
     }
-    
 }

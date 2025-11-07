@@ -25,4 +25,5 @@ void load_animation(Animation* anim, uint8_t x, uint8_t y);
 void update_animation(Animation* anim);
 void update_animation_metasprite(Animation* anim, uint8_t x, uint8_t y);
 void move_animation_sprite(Animation* anim, uint8_t x, uint8_t y);
+void unload_animation(Animation* anim);
 #endif /* ANIMATION_H */
