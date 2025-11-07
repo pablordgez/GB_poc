@@ -3,8 +3,8 @@
 #include <stdint.h>
 #include <gb/gb.h>
 #include <gb/metasprites.h>
+#include "main_definitions.h"
 #include "sprite_declarations.h"
-#include "space_manager.h"
 
 typedef struct {
     uint8_t number_of_frames;
@@ -19,8 +19,9 @@ typedef struct {
     uint8_t height;
 } Animation;
 
-void init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t sprite_id, SpaceManager* sprite_manager, SpaceManager* tile_manager);
-void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t sprite_id, uint8_t width, uint8_t height, SpaceManager* sprite_manager, SpaceManager* tile_manager);
+void sub_init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t sprite_id);
+void init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t sprite_id);
+void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t sprite_id, uint8_t width, uint8_t height);
 void load_animation(Animation* anim, uint8_t x, uint8_t y);
 void update_animation(Animation* anim);
 void update_animation_metasprite(Animation* anim, uint8_t x, uint8_t y);

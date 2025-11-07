@@ -2,12 +2,10 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "player.h"
-#include "metasprite1.h"
-#include "smile.h"
-#include "space_manager.h"
 #include "map.h"
 #include "map1.h"
 #include "animation_declarations.h"
+#include "main_definitions.h"
 
 void main(void)
 {
@@ -22,11 +20,9 @@ void main(void)
         }
         wait_vbl_done();
     }
-    SpaceManager sprite_manager;
     init_space_manager(&sprite_manager, MAX_HARDWARE_SPRITES);
-    SpaceManager sprite_tile_manager;
     init_space_manager(&sprite_tile_manager, 128);
-    animation_initialization(&sprite_manager, &sprite_tile_manager);
+    animation_initialization();
     Player p;
     init_player(&p, 1280, 1152, animations[ASSET_METASPRITE1]);
     Actor a;

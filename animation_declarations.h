@@ -4,4 +4,4 @@
 
 
 extern Animation* animations[];
-void animation_initialization(SpaceManager* sprite_manager, SpaceManager* tile_manager);
+void animation_initialization(void);

@@ -9,7 +9,7 @@ Animation* animations[] = {
 };
 
 
-void animation_initialization(SpaceManager* sprite_manager, SpaceManager* tile_manager){
-    init_animation_metasprite(animations[ASSET_METASPRITE1], 2, 60, ASSET_METASPRITE1, 2, 2, sprite_manager, tile_manager);
-    init_animation(animations[ASSET_SMILE], 2, 120, ASSET_SMILE, sprite_manager, tile_manager);
+void animation_initialization(void){
+    init_animation_metasprite(animations[ASSET_METASPRITE1], 2, 60, ASSET_METASPRITE1, 2, 2);
+    init_animation(animations[ASSET_SMILE], 2, 120, ASSET_SMILE);
 }

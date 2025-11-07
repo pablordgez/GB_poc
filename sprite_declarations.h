@@ -4,6 +4,9 @@
 #include "asset_manager.h"
 #include <gb/gb.h>
 
+#include "metasprite1.h"
+#include "smile.h"
+
 enum{
     ASSET_METASPRITE1,
     ASSET_SMILE

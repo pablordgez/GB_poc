@@ -1,7 +1,6 @@
 // This file should eventually be created by a script
 #include "sprite_declarations.h"
-#include "metasprite1.h"
-#include "smile.h"
+
 
 BANKREF_EXTERN(metasprite1)
 BANKREF_EXTERN(smile)
