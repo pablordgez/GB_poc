@@ -7,6 +7,7 @@
 #include "space_manager.h"
 #include "map.h"
 #include "map1.h"
+#include "animation_declarations.h"
 
 void main(void)
 {
@@ -25,7 +26,13 @@ void main(void)
     init_space_manager(&sprite_manager, MAX_HARDWARE_SPRITES);
     SpaceManager sprite_tile_manager;
     init_space_manager_no_data(&sprite_tile_manager, 128);
+    animation_initialization(&sprite_manager, &sprite_tile_manager);
+    Player p;
+    init_player(&p, 1280, 1152, animations[ASSET_METASPRITE1]);
+    Actor a;
+    init_actor(&a, 1600, 1152, animations[ASSET_SMILE]);
 
+    /*
     BANKREF_EXTERN(metasprite1)
     BANKREF_EXTERN(smile)
 
@@ -54,6 +61,7 @@ void main(void)
 
     free_space_manager(&sprite_manager);
     free_space_manager(&sprite_tile_manager);
+    */
 
     Map map;
     init_map(&map, 32, 32, map1_tileset, map1_tilemap);
@@ -94,7 +102,7 @@ void main(void)
             }
         }
         prev_joy = joypad();
-        update_player(&p);
-        update_actor(&a);
+        update_player_frame(&p);
+        update_actor_frame(&a);
     }
 }
