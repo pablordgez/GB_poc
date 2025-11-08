@@ -9,6 +9,7 @@ uint8_t changed_palette;
 
 void init_player(Player* player, uint16_t x, uint16_t y, Animation *initial_animation){
     init_actor(&player->base, x, y, initial_animation);
+    player->base.actor_type_id = ACTOR_ID;
     enable_actor(player);
     changed_palette = 0;
 }

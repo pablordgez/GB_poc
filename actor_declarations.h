@@ -1,23 +1,21 @@
 #ifndef SPRITE_DECLARATIONS_H
 #define SPRITE_DECLARATIONS_H
 // This file should eventually be created by a script
-#include "asset_manager.h"
 #include <gb/gb.h>
-
-#include "metasprite1.h"
-#include "smile.h"
+#include "asset_manager.h"
 
 #define ACTORS \
     _ACTOR(player, metasprite_1) \
     _ACTOR(smile_npc, smile_sprite)
 
-#define _ACTOR(name, data) ASSET_##name,
-enum{
-    ACTORS
-
-    NUMBER_OF_ACTORS
-};
+#define _ACTOR(name, data) _##name,
+    enum{
+        ACTORS
+        NUMBER_OF_ACTORS
+    };
 #undef _ACTOR
 
-extern const AssetEntry actors[];
+// breaking dependency loop
+extern const AssetEntry animation_assets[];
+
 #endif /* SPRITE_DECLARATIONS_H */

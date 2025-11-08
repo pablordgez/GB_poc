@@ -5,7 +5,7 @@ RVoid_PVoid actor_update_functions[NUMBER_OF_ACTORS];
 uint8_t prev_joy;
 
 #define _ACTOR(name, data) \
-    actor_update_functions[ASSET_##name] = Update_##name;
+    actor_update_functions[_##name] = Update_##name;
 void init_actors_update_functions(void){
     ACTORS
 }

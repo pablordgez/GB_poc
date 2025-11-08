@@ -16,6 +16,7 @@ typedef struct{
     uint8_t drawY;
     Animation* current_animation;
     uint8_t enabled;
+    uint8_t actor_type_id;
 } Actor;
 
 extern Actor* THIS_ACTOR;

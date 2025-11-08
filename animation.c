@@ -2,24 +2,22 @@
 
 Animation* THIS_ANIMATION;
 
-void sub_init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t sprite_id) {
+void sub_init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id) {
     anim->number_of_frames = num_frames;
     anim->frame_duration = frame_dur;
     anim->current_frame = 0;
     anim->frame_counter = 0;
-    anim->sprite_id = sprite_id;
+    anim->animation_id = animation_id;
 }
 
-void init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t sprite_id) {
-    sub_init_animation(anim, num_frames, frame_dur, sprite_id);
-    anim->sprite_slot = register_space(&sprite_manager, 1);
+void init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id) {
+    sub_init_animation(anim, num_frames, frame_dur, animation_id);
     anim->start_tile = register_space(&sprite_tile_manager, num_frames);
     anim->metasprite = (void*)0;
 }
 
-void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t sprite_id, uint8_t width, uint8_t height){
-    sub_init_animation(anim, num_frames, frame_dur, sprite_id);
-    anim->sprite_slot = register_space(&sprite_manager, width * height);
+void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id, uint8_t width, uint8_t height){
+    sub_init_animation(anim, num_frames, frame_dur, animation_id);
     anim->start_tile = register_space(&sprite_tile_manager, num_frames * width * height);
     anim->width = width;
     anim->height = height;
@@ -49,14 +47,16 @@ void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t fram
 }
 
 void load_animation(Animation* anim, uint8_t x, uint8_t y) {
-    const AssetEntry* data_entry = &actors[anim->sprite_id];
+    const AssetEntry* data_entry = &animation_assets[anim->animation_id];
     uint8_t prev_bank = _current_bank;
     SWITCH_ROM(data_entry->bank);
     if(anim->metasprite == (void*)0){
+        anim->sprite_slot = register_space(&sprite_manager, 1);
         set_sprite_data(anim->start_tile, anim->number_of_frames, data_entry->data);
         set_sprite_tile(anim->sprite_slot, anim->start_tile);
         move_sprite(anim->sprite_slot, x, y);
     } else{
+        anim->sprite_slot = register_space(&sprite_manager, anim->width * anim->height);
         set_sprite_data(anim->start_tile, anim->number_of_frames * anim->width * anim->height, data_entry->data);
         move_metasprite_ex(anim->metasprite, anim->start_tile, 0, anim->sprite_slot, x, y);
     }

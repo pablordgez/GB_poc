@@ -4,6 +4,7 @@
 #include "actor_declarations.h"
 #define _CONCAT_DELAY(A,B) A ## B
 #define CONCAT(A,B) _CONCAT_DELAY(A,B)
+#define ACTOR_ID CONCAT(_, FILE_NAME)
 #define UPDATE CONCAT(Update_, FILE_NAME)
 
 // function pointer returns void receives 

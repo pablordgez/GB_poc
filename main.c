@@ -27,9 +27,9 @@ void main(void)
     animation_initialization();
     init_actors_update_functions();
     Player p;
-    init_player(&p, 1280, 1152, animations[ASSET_player]);
+    init_player(&p, 1280, 1152, animations[_player_idle]);
     Smile_NPC a;
-    init_smile_npc(&a, 1600, 1152, animations[ASSET_smile_npc]);
+    init_smile_npc(&a, 1600, 1152, animations[_smile_npc_idle]);
 
     Map map;
     init_map(&map, 32, 32, map1_tileset, map1_tilemap);

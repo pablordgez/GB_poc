@@ -1,18 +1,40 @@
 #include "animation_declarations.h"
 
-#define _ACTOR(name, data) \
-    Animation name##_normal;
-ACTORS
-#undef _ACTOR
+#define _ANIMATION(name, data, frames, duration, ...) \
+    Animation name;
+ANIMATIONS
+#undef _ANIMATION
 
-#define _ACTOR(name, data) \
-    [ASSET_##name] = &name##_normal,
+#define _ANIMATION(name, data, frames, duration, ...) \
+    [_##name] = &name,
 Animation* animations[] = {
-    ACTORS
+    ANIMATIONS
 };
-#undef _ACTOR
+#undef _ANIMATION
+
+
+BANKREF_EXTERN(player_idle)
+BANKREF_EXTERN(smile_npc_idle)
+#define _ANIMATION(name, data, frames, duration, ...) \
+    [_##name] = { BANK(name), data },
+const AssetEntry animation_assets [] = {
+    ANIMATIONS
+};
+#undef _ANIMATION
+
+
+#define _ANIMATION(...) GET_MACRO_IMPL(__VA_ARGS__, \
+    _ANIMATION_FUNC_MSPR, \
+    _ANIMATION_FUNC_MSPR, \
+    _ANIMATION_FUNC, \
+    _ANIMATION_FUNC, \
+    _ANIMATION_FUNC, \
+    _ANIMATION_FUNC, \
+    _ANIMATION_FUNC \
+) (__VA_ARGS__)
+
 
 void animation_initialization(void){
-    init_animation_metasprite(animations[ASSET_player], 2, 60, ASSET_player, 2, 2);
-    init_animation(animations[ASSET_smile_npc], 2, 120, ASSET_smile_npc);
+    ANIMATIONS
 }
+#undef _ANIMATION
