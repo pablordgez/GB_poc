@@ -1,5 +1,7 @@
 #include "animation.h"
 
+Animation* THIS_ANIMATION;
+
 void sub_init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t sprite_id) {
     anim->number_of_frames = num_frames;
     anim->frame_duration = frame_dur;
@@ -47,7 +49,7 @@ void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t fram
 }
 
 void load_animation(Animation* anim, uint8_t x, uint8_t y) {
-    const AssetEntry* data_entry = &sprites[anim->sprite_id];
+    const AssetEntry* data_entry = &actors[anim->sprite_id];
     uint8_t prev_bank = _current_bank;
     SWITCH_ROM(data_entry->bank);
     if(anim->metasprite == (void*)0){
@@ -62,39 +64,39 @@ void load_animation(Animation* anim, uint8_t x, uint8_t y) {
     
 }
 
-void update_animation(Animation* anim) {
-    anim->frame_counter++;
-    if (anim->frame_counter < anim->frame_duration) {
+void update_animation(void) {
+    THIS_ANIMATION->frame_counter++;
+    if (THIS_ANIMATION->frame_counter < THIS_ANIMATION->frame_duration) {
         return;
     }
-    anim->frame_counter = 0;
-    if(anim->current_frame >= anim->number_of_frames - 1){
-        anim->current_frame = 0;
+    THIS_ANIMATION->frame_counter = 0;
+    if(THIS_ANIMATION->current_frame >= THIS_ANIMATION->number_of_frames - 1){
+        THIS_ANIMATION->current_frame = 0;
     } else{
-        anim->current_frame++;
+        THIS_ANIMATION->current_frame++;
     }
-    set_sprite_tile(anim->sprite_slot, anim->start_tile + anim->current_frame);
+    set_sprite_tile(THIS_ANIMATION->sprite_slot, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame);
 }
 
-void update_animation_metasprite(Animation* anim, uint8_t x, uint8_t y){
-    anim->frame_counter++;
-    if (anim->frame_counter < anim->frame_duration) {
+void update_animation_metasprite(uint8_t x, uint8_t y){
+    THIS_ANIMATION->frame_counter++;
+    if (THIS_ANIMATION->frame_counter < THIS_ANIMATION->frame_duration) {
         return;
     }
-    anim->frame_counter = 0;
-    if(anim->current_frame >= anim->number_of_frames - 1){
-        anim->current_frame = 0;
+    THIS_ANIMATION->frame_counter = 0;
+    if(THIS_ANIMATION->current_frame >= THIS_ANIMATION->number_of_frames - 1){
+        THIS_ANIMATION->current_frame = 0;
     } else {
-        anim->current_frame++;
+        THIS_ANIMATION->current_frame++;
     }
-    move_metasprite_ex(anim->metasprite, anim->start_tile + anim->current_frame * anim->width * anim->height, 0, anim->sprite_slot, x, y);
+    move_metasprite_ex(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, 0, THIS_ANIMATION->sprite_slot, x, y);
 }
 
-void move_animation_sprite(Animation* anim, uint8_t x, uint8_t y){
-    if(anim->metasprite == (void*)0){
-        move_sprite(anim->sprite_slot, x, y);
+void move_animation_sprite(uint8_t x, uint8_t y){
+    if(THIS_ANIMATION->metasprite == (void*)0){
+        move_sprite(THIS_ANIMATION->sprite_slot, x, y);
     } else {
-        move_metasprite_ex(anim->metasprite, anim->start_tile + anim->current_frame * anim->width * anim->height, 0, anim->sprite_slot, x, y);
+        move_metasprite_ex(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, 0, THIS_ANIMATION->sprite_slot, x, y);
     }
 }
 

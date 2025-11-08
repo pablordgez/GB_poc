@@ -1,6 +1,6 @@
 #include "animation.h"
 #include "space_manager.h"
-#include "sprite_declarations.h"
+#include "actor_declarations.h"
 
 
 extern Animation* animations[];

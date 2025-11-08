@@ -1,6 +1,6 @@
 #pragma bank 255
 #include "metasprite1.h"
-BANKREF(metasprite1)
+BANKREF(player)
 
 
 

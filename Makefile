@@ -28,17 +28,31 @@ PROJECTNAME    = proofOfConcept
 BINS	    = $(PROJECTNAME).gb
 CSOURCES   := $(wildcard *.c)
 ASMSOURCES := $(wildcard *.s)
-
+OBJECTS    := $(CSOURCES:.c=.o) $(ASMSOURCES:.s=.o)
 all:	$(BINS)
+
+RM = rm -f
+ifeq ($(OS),Windows_NT)
+	# Use Windows-style 'del' command
+	# /F = Force, /Q = Quiet (no prompting)
+	RM = del /F /Q
+endif
 
 compile.bat: Makefile
 	@echo "REM Automatically generated from Makefile" > compile.bat
 	@make -sn | sed y/\\//\\\\/ | sed s/mkdir\ \-p/mkdir/ | grep -v make >> compile.bat
 
 # Compile and link all source files in a single call to LCC
-$(BINS):	$(CSOURCES) $(ASMSOURCES)
-	$(LCC) $(LCCFLAGS) -o $@ $(CSOURCES) $(ASMSOURCES)
+$(BINS):	$(OBJECTS)
+	$(LCC) $(LCCFLAGS) -o $@ $(OBJECTS)
+	$(RM) $(OBJECTS) *.asm *.lst *.sym *.ihx
+
+%.o: %.c
+	$(LCC) $(LCCFLAGS) -DFILE_NAME=$(basename $(<F)) -c -o $@ $<
+
+%.o: %.s
+	$(LCC) $(LCCFLAGS) -c -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm *.noi *.rst
+	$(RM) *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm *.noi *.rst
 

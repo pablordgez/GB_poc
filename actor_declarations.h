@@ -7,10 +7,17 @@
 #include "metasprite1.h"
 #include "smile.h"
 
-enum{
-    ASSET_METASPRITE1,
-    ASSET_SMILE
-};
+#define ACTORS \
+    _ACTOR(player, metasprite_1) \
+    _ACTOR(smile_npc, smile_sprite)
 
-extern const AssetEntry sprites[];
+#define _ACTOR(name, data) ASSET_##name,
+enum{
+    ACTORS
+
+    NUMBER_OF_ACTORS
+};
+#undef _ACTOR
+
+extern const AssetEntry actors[];
 #endif /* SPRITE_DECLARATIONS_H */

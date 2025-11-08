@@ -1,6 +1,8 @@
 #include "actor.h"
 #include <stdio.h>
 
+Actor* THIS_ACTOR;
+
 void init_actor(Actor* actor, uint16_t x, uint16_t y, Animation *initial_animation) {
     actor->x = x;
     actor->y = y;
@@ -16,13 +18,19 @@ void move_actor(Actor* actor, int8_t dx, int8_t dy) {
     actor->y += dy;
     actor->drawX = (actor->x >> 4) + 8;
     actor->drawY = (actor->y >> 4) + 16;
-    move_animation_sprite(actor->current_animation, actor->drawX, actor->drawY);
+    THIS_ANIMATION = actor->current_animation;
+    move_animation_sprite(actor->drawX, actor->drawY);
 }
 
 void update_actor_frame(Actor* actor) {
-    if(actor->current_animation->metasprite == (void*) 0){
-        update_animation(actor->current_animation);
+    THIS_ANIMATION = actor->current_animation;
+    if(THIS_ANIMATION->metasprite == (void*) 0){
+        update_animation();
     } else{
-        update_animation_metasprite(actor->current_animation, actor->drawX, actor->drawY);
+        update_animation_metasprite(actor->drawX, actor->drawY);
     }
+}
+
+void UPDATE(void) {
+    update_actor_frame(THIS_ACTOR);
 }
