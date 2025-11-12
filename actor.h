@@ -24,4 +24,5 @@ extern Actor* THIS_ACTOR;
 void init_actor(Actor* actor, uint16_t x, uint16_t y, Animation *initial_animation);
 void move_actor(Actor* actor, int8_t dx, int8_t dy);
 void update_actor_frame(Actor* actor);
+void set_actor_animation(Animation* new_animation);
 #endif /* ACTOR_H */

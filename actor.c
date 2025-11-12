@@ -34,3 +34,10 @@ void update_actor_frame(Actor* actor) {
 void UPDATE(void) {
     update_actor_frame(THIS_ACTOR);
 }
+
+void set_actor_animation(Animation* new_animation) {
+    unload_animation(THIS_ACTOR->current_animation);
+    THIS_ACTOR->current_animation = new_animation;
+    load_animation(new_animation, THIS_ACTOR->drawX, THIS_ACTOR->drawY);
+}
+

@@ -8,17 +8,16 @@ void sub_init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, 
     anim->current_frame = 0;
     anim->frame_counter = 0;
     anim->animation_id = animation_id;
+    anim->props = 0;
 }
 
 void init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id) {
     sub_init_animation(anim, num_frames, frame_dur, animation_id);
-    anim->start_tile = register_space(&sprite_tile_manager, num_frames);
     anim->metasprite = (void*)0;
 }
 
 void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id, uint8_t width, uint8_t height){
     sub_init_animation(anim, num_frames, frame_dur, animation_id);
-    anim->start_tile = register_space(&sprite_tile_manager, num_frames * width * height);
     anim->width = width;
     anim->height = height;
     metasprite_t* anim_metasprite = malloc(sizeof(metasprite_t) * (anim->width * anim->height + 1));
@@ -52,11 +51,13 @@ void load_animation(Animation* anim, uint8_t x, uint8_t y) {
     SWITCH_ROM(data_entry->bank);
     if(anim->metasprite == (void*)0){
         anim->sprite_slot = register_space(&sprite_manager, 1);
+        anim->start_tile = register_space(&sprite_tile_manager, anim->number_of_frames);
         set_sprite_data(anim->start_tile, anim->number_of_frames, data_entry->data);
         set_sprite_tile(anim->sprite_slot, anim->start_tile);
         move_sprite(anim->sprite_slot, x, y);
     } else{
         anim->sprite_slot = register_space(&sprite_manager, anim->width * anim->height);
+        anim->start_tile = register_space(&sprite_tile_manager, anim->number_of_frames * anim->width * anim->height);
         set_sprite_data(anim->start_tile, anim->number_of_frames * anim->width * anim->height, data_entry->data);
         move_metasprite_ex(anim->metasprite, anim->start_tile, 0, anim->sprite_slot, x, y);
     }
@@ -89,14 +90,14 @@ void update_animation_metasprite(uint8_t x, uint8_t y){
     } else {
         THIS_ANIMATION->current_frame++;
     }
-    move_metasprite_ex(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, 0, THIS_ANIMATION->sprite_slot, x, y);
+    move_metasprite_ex(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION->sprite_slot, x, y);
 }
 
 void move_animation_sprite(uint8_t x, uint8_t y){
     if(THIS_ANIMATION->metasprite == (void*)0){
         move_sprite(THIS_ANIMATION->sprite_slot, x, y);
     } else {
-        move_metasprite_ex(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, 0, THIS_ANIMATION->sprite_slot, x, y);
+        move_metasprite_ex(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION->sprite_slot, x, y);
     }
 }
 
@@ -105,10 +106,30 @@ void unload_animation(Animation* anim) {
     if(anim->metasprite != (void*)0){
         remove_spaces(&sprite_manager, anim->sprite_slot, anim->width * anim->height);
         remove_spaces(&sprite_tile_manager, anim->start_tile, anim->number_of_frames * anim->width * anim->height);
-        free(anim->metasprite);
-        anim->metasprite = (void*)0;
     } else{
         remove_spaces(&sprite_manager, anim->sprite_slot, 1);
         remove_spaces(&sprite_tile_manager, anim->start_tile, anim->number_of_frames);
+    }
+}
+
+void change_animation_props(uint8_t props){
+    set_sprite_prop(THIS_ANIMATION->sprite_slot, props);
+    THIS_ANIMATION->props = props;
+}
+
+void change_animation_props_metasprite(uint8_t props, uint8_t x, uint8_t y){
+    move_metasprite_ex(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, props, THIS_ANIMATION->sprite_slot, x, y);
+    THIS_ANIMATION->props = props;
+}
+
+void flip_animation_metasprite(uint8_t flip_x, uint8_t flip_y, uint8_t x, uint8_t y){
+    if(flip_x && flip_y){
+        move_metasprite_flipxy(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION->sprite_slot, x, y);
+    }
+    else if(flip_x){
+        move_metasprite_flipx(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION->sprite_slot, x, y);
+    }
+    else if(flip_y){
+        move_metasprite_flipy(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION->sprite_slot, x, y);
     }
 }

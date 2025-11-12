@@ -5,7 +5,7 @@
 #include "asset_manager.h"
 
 #define ACTORS \
-    _ACTOR(player, metasprite_1) \
+    _ACTOR(player, player_anim_right) \
     _ACTOR(smile_npc, smile_sprite)
 
 #define _ACTOR(name, data) _##name,

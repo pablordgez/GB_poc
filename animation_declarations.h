@@ -1,13 +1,18 @@
+#ifndef ANIMATION_DECLARATIONS_H
+#define ANIMATION_DECLARATIONS_H
 #include "animation.h"
 #include "space_manager.h"
 #include "actor_declarations.h"
 #include "asset_manager.h"
-
-#include "metasprite1.h"
+#include "player_anim_sides.h"
+#include "player_anim_down.h"
+#include "player_anim_up.h"
 #include "smile.h"
 
 #define ANIMATIONS \
-    _ANIMATION(player_idle, metasprite_1, 2, 60, 2, 2) \
+    _ANIMATION(player_sides, player_anim_sides, 2, 60, 2, 2) \
+    _ANIMATION(player_up, player_anim_up, 1, 60, 2, 2) \
+    _ANIMATION(player_down, player_anim_down, 2, 60, 2, 2) \
     _ANIMATION(smile_npc_idle, smile_sprite, 2, 120)
 
 #define _ANIMATION(name, data, frames, duration, ...) _##name,
@@ -29,3 +34,4 @@ void animation_initialization(void);
     init_animation_metasprite(animations[_##name], frames, duration, _##name, width, height);
 
 #define GET_MACRO_IMPL(_1, _2, _3, _4, _5, _6, NAME, ...) NAME
+#endif

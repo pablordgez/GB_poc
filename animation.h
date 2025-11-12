@@ -18,6 +18,7 @@ typedef struct {
     metasprite_t* metasprite;
     uint8_t width;
     uint8_t height;
+    uint8_t props;
 } Animation;
 
 extern Animation* THIS_ANIMATION;
@@ -30,4 +31,7 @@ void update_animation(void);
 void update_animation_metasprite(uint8_t x, uint8_t y);
 void move_animation_sprite(uint8_t x, uint8_t y);
 void unload_animation(Animation* anim);
+void change_animation_props(uint8_t props);
+void change_animation_props_metasprite(uint8_t props, uint8_t x, uint8_t y);
+void flip_animation_metasprite(uint8_t flip_x, uint8_t flip_y, uint8_t x, uint8_t y);
 #endif /* ANIMATION_H */

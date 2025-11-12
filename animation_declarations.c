@@ -13,8 +13,10 @@ Animation* animations[] = {
 #undef _ANIMATION
 
 
-BANKREF_EXTERN(player_idle)
-BANKREF_EXTERN(smile_npc_idle)
+#define _ANIMATION(name, data, frames, duration, ...) \
+BANKREF_EXTERN(name)
+ANIMATIONS
+#undef _ANIMATION
 #define _ANIMATION(name, data, frames, duration, ...) \
     [_##name] = { BANK(name), data },
 const AssetEntry animation_assets [] = {
