@@ -5,10 +5,10 @@
 #include "asset_manager.h"
 
 #define ACTORS \
-    _ACTOR(player, player_anim_right) \
-    _ACTOR(smile_npc, smile_sprite)
+    _ACTOR(player) \
+    _ACTOR(movement_npc)
 
-#define _ACTOR(name, data) _##name,
+#define _ACTOR(name) _##name,
     enum{
         ACTORS
         NUMBER_OF_ACTORS

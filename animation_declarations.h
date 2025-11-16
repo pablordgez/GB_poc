@@ -7,13 +7,15 @@
 #include "player_anim_sides.h"
 #include "player_anim_down.h"
 #include "player_anim_up.h"
-#include "smile.h"
+#include "sprite_no_movement.h"
+#include "sprite_up.h"
 
 #define ANIMATIONS \
     _ANIMATION(player_sides, player_anim_sides, 2, 60, 2, 2) \
     _ANIMATION(player_up, player_anim_up, 1, 60, 2, 2) \
     _ANIMATION(player_down, player_anim_down, 2, 60, 2, 2) \
-    _ANIMATION(smile_npc_idle, smile_sprite, 2, 120)
+    _ANIMATION(no_movement, sprite_no_movement, 1, 255) \
+    _ANIMATION(movement_up, sprite_up, 2, 20) \
 
 #define _ANIMATION(name, data, frames, duration, ...) _##name,
     enum{

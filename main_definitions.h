@@ -14,7 +14,7 @@ extern SpaceManager sprite_tile_manager;
 
 typedef void (*RVoid_PVoid)(void);
 extern RVoid_PVoid actor_update_functions[NUMBER_OF_ACTORS];
-#define _ACTOR(name, data) \
+#define _ACTOR(name) \
     void Update_##name(void);
 
 ACTORS

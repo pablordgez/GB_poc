@@ -7,8 +7,7 @@
 #include "animation_declarations.h"
 #include "main_definitions.h"
 #include "actor_manager.h"
-#include "smile_npc.h"
-
+#include "movement_npc.h"
 void main(void)
 {
 
@@ -28,8 +27,8 @@ void main(void)
     init_actors_update_functions();
     Player p;
     init_player(&p, 1280, 1152, animations[_player_sides]);
-    Smile_NPC a;
-    init_smile_npc(&a, 1600, 1152, animations[_smile_npc_idle]);
+    Movement_NPC a;
+    init_movement_npc(&a, 1600, 1152, animations[_no_movement]);
 
     Map map;
     init_map(&map, 32, 32, map1_tileset, map1_tilemap);
@@ -44,7 +43,7 @@ void main(void)
     while(1) {
         vsync();
         update_actors();
-    
+        prev_joy = joypad();
         
         
     }

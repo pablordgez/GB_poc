@@ -68,7 +68,7 @@ void UPDATE(void) {
             changed_palette = 0;
         }
     }
-    prev_joy = joypad();
+    
     if(THIS_PLAYER->prev_direction == 3){
         flip_animation_metasprite(1, 0, THIS_PLAYER->base.drawX, THIS_PLAYER->base.drawY);
     }
