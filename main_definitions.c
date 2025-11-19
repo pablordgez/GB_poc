@@ -3,7 +3,7 @@ SpaceManager sprite_manager;
 SpaceManager sprite_tile_manager;
 RVoid_PVoid actor_update_functions[NUMBER_OF_ACTORS];
 uint8_t prev_joy;
-
+uint8_t in_debug = 0;
 #define _ACTOR(name) \
     actor_update_functions[_##name] = Update_##name;
 void init_actors_update_functions(void){

@@ -24,6 +24,7 @@ ACTORS
 void init_actors_update_functions(void);
 
 extern uint8_t prev_joy;
+extern uint8_t in_debug;
 
 
 

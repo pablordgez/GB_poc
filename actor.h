@@ -7,6 +7,7 @@
 #include "space_manager.h"
 #include "animation.h"
 #include "main_definitions.h"
+#include "camera.h"
 
 
 typedef struct{

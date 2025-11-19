@@ -56,7 +56,10 @@ void UPDATE(void) {
         }
     }
     if(joypad() & J_A) {
+        move_bkg(0, 0);
         printf("Player position: (%u, %u)\n", THIS_PLAYER->base.x, THIS_PLAYER->base.y);
+        printf("Camera position: (%u, %u)\n", camera_x, camera_y);
+        in_debug = 1;
     }
     if(joypad() & J_B && !(prev_joy & J_B)) {
         if(changed_palette == 0){
@@ -72,5 +75,6 @@ void UPDATE(void) {
     if(THIS_PLAYER->prev_direction == 3){
         flip_animation_metasprite(1, 0, THIS_PLAYER->base.drawX, THIS_PLAYER->base.drawY);
     }
+    update_camera(THIS_PLAYER->base.x, THIS_PLAYER->base.y);
     
 }

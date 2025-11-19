@@ -133,3 +133,12 @@ void flip_animation_metasprite(uint8_t flip_x, uint8_t flip_y, uint8_t x, uint8_
         move_metasprite_flipy(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION->sprite_slot, x, y);
     }
 }
+
+
+void hide_animation(void){
+    if(THIS_ANIMATION->metasprite == (void*)0){
+        hide_sprite(THIS_ANIMATION->sprite_slot);
+    } else{
+        hide_metasprite(THIS_ANIMATION->metasprite, THIS_ANIMATION->sprite_slot);
+    }
+}

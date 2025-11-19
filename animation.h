@@ -34,4 +34,5 @@ void unload_animation(Animation* anim);
 void change_animation_props(uint8_t props);
 void change_animation_props_metasprite(uint8_t props, uint8_t x, uint8_t y);
 void flip_animation_metasprite(uint8_t flip_x, uint8_t flip_y, uint8_t x, uint8_t y);
+void hide_animation(void);
 #endif /* ANIMATION_H */
