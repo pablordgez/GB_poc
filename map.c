@@ -5,7 +5,7 @@ void init_map(Map* map, int width, int height, uint8_t* tiles, uint8_t* map_data
     map->height = height;
     map->map_data = map_data;
 
-    set_bkg_data(0, sizeof(tiles) / sizeof(tiles[0]), tiles);
+    set_bkg_data(0, sizeof(tiles) / TILE_SIZE_BYTES, tiles);
     set_bkg_tiles(0, 0, width, height, map_data);
 }
 

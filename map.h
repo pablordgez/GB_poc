@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <gb/gb.h>
+#define TILE_SIZE_BYTES 16
 typedef struct Map{
     int width;
     int height;
