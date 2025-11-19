@@ -4,8 +4,8 @@ uint8_t camera_x = 0;
 uint8_t camera_y = 0;
 uint8_t limit_x = 140;
 uint8_t limit_y = 124;
-uint8_t max_cam_x = 96;
-uint8_t max_cam_y = 112;                                                                                                                                                                                                                                                                                                                                                        
+uint8_t max_cam_x = MAP_WIDTH - SCREEN_WIDTH;
+uint8_t max_cam_y = MAP_HEIGHT - SCREEN_HEIGHT;
 
 void update_camera(uint16_t x, uint16_t y) {
     uint8_t draw_x = (x >> 4) - camera_x;
@@ -14,14 +14,14 @@ void update_camera(uint16_t x, uint16_t y) {
     if(draw_x > limit_x){
         camera_x = (x >> 4) - limit_x;
     }
-    else if(draw_x < 160 - limit_x && camera_x > 0){
-        camera_x = (x >> 4) - (160 - limit_x);
+    else if(draw_x < SCREEN_WIDTH - limit_x && camera_x > 0){
+        camera_x = (x >> 4) - (SCREEN_WIDTH - limit_x);
     }
     if(draw_y > limit_y){
         camera_y = (y >> 4) - limit_y;
     }
-    else if(draw_y < 144 - limit_y && camera_y > 0){
-        camera_y = (y >> 4) - (144 - limit_y);
+    else if(draw_y < SCREEN_HEIGHT - limit_y && camera_y > 0){
+        camera_y = (y >> 4) - (SCREEN_HEIGHT - limit_y);
     }
     if(camera_x > max_cam_x){
         camera_x = max_cam_x;

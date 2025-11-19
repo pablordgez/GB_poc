@@ -3,6 +3,10 @@
 #include <stdint.h>
 #include <gb/gb.h>
 #include "main_definitions.h"
+#define MAP_WIDTH 256
+#define MAP_HEIGHT 256
+#define SCREEN_WIDTH 160
+#define SCREEN_HEIGHT 144
 extern uint8_t camera_x;
 extern uint8_t camera_y;
 extern uint8_t limit_x;

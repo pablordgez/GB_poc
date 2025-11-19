@@ -27,8 +27,11 @@ void main(void)
     init_actors_update_functions();
     Player p;
     init_player(&p, 1280, 1152, animations[_player_sides]);
-    Movement_NPC a;
-    init_movement_npc(&a, 1600, 1152, animations[_no_movement]);
+    Movement_NPC a, b, c, d;
+    init_movement_npc(&a, 300, 1152, animations[_no_movement]);
+    init_movement_npc(&b, 3000, 1152, animations[_no_movement]);
+    init_movement_npc(&c, 1280, 300, animations[_no_movement]);
+    init_movement_npc(&d, 1280, 3000, animations[_no_movement]);
 
     Map map;
     init_map(&map, 32, 32, map1_tileset, map1_tilemap);

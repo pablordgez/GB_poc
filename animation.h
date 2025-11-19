@@ -7,25 +7,36 @@
 #include "actor_declarations.h"
 #include "asset_manager.h"
 
+
+
+
 typedef struct {
     uint8_t number_of_frames;
     uint8_t frame_duration;
     uint8_t animation_id;
-    uint8_t sprite_slot;
     uint8_t start_tile;
-    uint8_t current_frame;
-    uint8_t frame_counter;
     metasprite_t* metasprite;
     uint8_t width;
     uint8_t height;
     uint8_t props;
+    uint8_t cached;
 } Animation;
 
+
+typedef struct {
+    uint8_t sprite_slot;
+    uint8_t current_frame;
+    uint8_t frame_counter;
+} AnimationRuntimeData;
+
+
 extern Animation* THIS_ANIMATION;
+extern AnimationRuntimeData* THIS_ANIMATION_RUNTIME_DATA;
 
 void sub_init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id);
 void init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id);
 void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id, uint8_t width, uint8_t height);
+void init_animation_runtime_data(AnimationRuntimeData* anim_data);
 void load_animation(Animation* anim, uint8_t x, uint8_t y);
 void update_animation(void);
 void update_animation_metasprite(uint8_t x, uint8_t y);
@@ -35,4 +46,6 @@ void change_animation_props(uint8_t props);
 void change_animation_props_metasprite(uint8_t props, uint8_t x, uint8_t y);
 void flip_animation_metasprite(uint8_t flip_x, uint8_t flip_y, uint8_t x, uint8_t y);
 void hide_animation(void);
+uint8_t get_half_width(void);
+uint8_t get_half_height(void);
 #endif /* ANIMATION_H */

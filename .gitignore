@@ -5,3 +5,4 @@
 *.cdb
 *.adb
 *.rst
+.cache
