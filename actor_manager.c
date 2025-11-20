@@ -21,5 +21,6 @@ void update_actors(void){
     for(uint8_t i = 0; i < active_actor_number; i++){
         THIS_ACTOR = active_actors[i];
         actor_update_functions[THIS_ACTOR->actor_type_id]();
+        draw_actor();
     }
 }

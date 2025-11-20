@@ -27,6 +27,8 @@ typedef struct {
     uint8_t sprite_slot;
     uint8_t current_frame;
     uint8_t frame_counter;
+    uint8_t flipX;
+    uint8_t flipY;
 } AnimationRuntimeData;
 
 
@@ -44,7 +46,7 @@ void move_animation_sprite(uint8_t x, uint8_t y);
 void unload_animation(Animation* anim);
 void change_animation_props(uint8_t props);
 void change_animation_props_metasprite(uint8_t props, uint8_t x, uint8_t y);
-void flip_animation_metasprite(uint8_t flip_x, uint8_t flip_y, uint8_t x, uint8_t y);
+void flip_animation_metasprite(uint8_t flip_x, uint8_t flip_y);
 void hide_animation(void);
 uint8_t get_half_width(void);
 uint8_t get_half_height(void);

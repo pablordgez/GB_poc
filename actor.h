@@ -28,4 +28,5 @@ void move_actor(Actor *actor, int8_t dx, int8_t dy);
 void update_actor_frame(Actor *actor);
 void set_actor_animation(Animation *new_animation);
 void set_animation_context(Actor *actor);
+void draw_actor(void);
 #endif /* ACTOR_H */

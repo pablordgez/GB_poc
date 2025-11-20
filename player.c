@@ -73,7 +73,7 @@ void UPDATE(void) {
     }
     
     if(THIS_PLAYER->prev_direction == 3){
-        flip_animation_metasprite(1, 0, THIS_PLAYER->base.drawX, THIS_PLAYER->base.drawY);
+        flip_animation_metasprite(1, 0);
     }
     update_camera(THIS_PLAYER->base.x, THIS_PLAYER->base.y);
     

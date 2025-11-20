@@ -50,6 +50,8 @@ void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t fram
 void init_animation_runtime_data(AnimationRuntimeData* anim_data) {
     anim_data->current_frame = 0;
     anim_data->frame_counter = 0;
+    anim_data->flipX = 0;
+    anim_data->flipY = 0;
 }
 
 void load_animation(Animation* anim, uint8_t x, uint8_t y) {
@@ -114,7 +116,15 @@ void move_animation_sprite(uint8_t x, uint8_t y){
     if(THIS_ANIMATION->metasprite == (void*)0){
         move_sprite(THIS_ANIMATION_RUNTIME_DATA->sprite_slot, x, y);
     } else {
-        move_metasprite_ex(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION_RUNTIME_DATA->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION_RUNTIME_DATA->sprite_slot, x, y);
+        if(THIS_ANIMATION_RUNTIME_DATA->flipX && THIS_ANIMATION_RUNTIME_DATA->flipY){
+            move_metasprite_flipxy(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION_RUNTIME_DATA->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION_RUNTIME_DATA->sprite_slot, x, y);
+        } else if(THIS_ANIMATION_RUNTIME_DATA->flipX){
+            move_metasprite_flipx(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION_RUNTIME_DATA->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION_RUNTIME_DATA->sprite_slot, x, y);
+        } else if(THIS_ANIMATION_RUNTIME_DATA->flipY){
+            move_metasprite_flipy(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION_RUNTIME_DATA->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION_RUNTIME_DATA->sprite_slot, x, y);
+        } else{
+            move_metasprite_ex(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION_RUNTIME_DATA->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION_RUNTIME_DATA->sprite_slot, x, y);
+        }
     }
 }
 
@@ -146,16 +156,9 @@ void change_animation_props_metasprite(uint8_t props, uint8_t x, uint8_t y){
     THIS_ANIMATION->props = props;
 }
 
-void flip_animation_metasprite(uint8_t flip_x, uint8_t flip_y, uint8_t x, uint8_t y){
-    if(flip_x && flip_y){
-        move_metasprite_flipxy(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION_RUNTIME_DATA->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION_RUNTIME_DATA->sprite_slot, x, y);
-    }
-    else if(flip_x){
-        move_metasprite_flipx(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION_RUNTIME_DATA->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION_RUNTIME_DATA->sprite_slot, x, y);
-    }
-    else if(flip_y){
-        move_metasprite_flipy(THIS_ANIMATION->metasprite, THIS_ANIMATION->start_tile + THIS_ANIMATION_RUNTIME_DATA->current_frame * THIS_ANIMATION->width * THIS_ANIMATION->height, THIS_ANIMATION->props, THIS_ANIMATION_RUNTIME_DATA->sprite_slot, x, y);
-    }
+void flip_animation_metasprite(uint8_t flip_x, uint8_t flip_y){
+    THIS_ANIMATION_RUNTIME_DATA->flipX = flip_x;
+    THIS_ANIMATION_RUNTIME_DATA->flipY = flip_y;
 }
 
 

@@ -32,51 +32,39 @@ void move_actor(Actor *actor, int8_t dx, int8_t dy) {
   } else {
     actor->y += dy;
   }
-  set_animation_context(actor);
   if (actor->x > 4096)
     actor->x = 4096;
   if (actor->y > 4096)
     actor->y = 4096;
-  actor->drawX = (actor->x >> 4) + 8 - camera_x;
-  actor->drawY = (actor->y >> 4) + 16 - camera_y;
-
-  uint16_t camera_x_shifted = camera_x << 4;
-  uint16_t camera_y_shifted = camera_y << 4;
-  uint16_t screen_width_shifted = SCREEN_WIDTH << 4;
-  uint16_t screen_height_shifted = SCREEN_HEIGHT << 4;
-  if (actor->x < camera_x_shifted ||
-      actor->x > camera_x_shifted + screen_width_shifted ||
-      actor->y < camera_y_shifted ||
-      actor->y > camera_y_shifted + screen_height_shifted) {
-    hide_animation();
-    return;
-  }
-  move_animation_sprite(actor->drawX, actor->drawY);
 }
 
-void update_actor_frame(Actor *actor) {
-  set_animation_context(actor);
-  actor->drawX = (actor->x >> 4) + 8 - camera_x;
-  actor->drawY = (actor->y >> 4) + 16 - camera_y;
+void draw_actor(void) {
+  set_animation_context(THIS_ACTOR);
+  THIS_ACTOR->drawX = (THIS_ACTOR->x >> 4) + 8 - camera_x;
+  THIS_ACTOR->drawY = (THIS_ACTOR->y >> 4) + 16 - camera_y;
   uint16_t camera_x_shifted = camera_x << 4;
   uint16_t camera_y_shifted = camera_y << 4;
   uint16_t screen_width_shifted = SCREEN_WIDTH << 4;
   uint16_t screen_height_shifted = SCREEN_HEIGHT << 4;
   uint16_t half_width = get_half_width() << 4;
   uint16_t half_height = get_half_height() << 4;
-  if (actor->x + half_width < camera_x_shifted ||
-      actor->x - half_width > camera_x_shifted + screen_width_shifted ||
-      actor->y + half_height < camera_y_shifted ||
-      actor->y - half_height > camera_y_shifted + screen_height_shifted) {
+  if (THIS_ACTOR->x + half_width < camera_x_shifted ||
+      THIS_ACTOR->x - half_width > camera_x_shifted + screen_width_shifted ||
+      THIS_ACTOR->y + half_height < camera_y_shifted ||
+      THIS_ACTOR->y - half_height > camera_y_shifted + screen_height_shifted) {
     hide_animation();
     return;
   }
+  move_animation_sprite(THIS_ACTOR->drawX, THIS_ACTOR->drawY);
+}
+
+void update_actor_frame(Actor *actor) {
+  set_animation_context(actor);
   if (THIS_ANIMATION->metasprite == (void *)0) {
     update_animation();
   } else {
     update_animation_metasprite(actor->drawX, actor->drawY);
   }
-  move_animation_sprite(actor->drawX, actor->drawY);
 }
 
 void UPDATE(void) { update_actor_frame(THIS_ACTOR); }
