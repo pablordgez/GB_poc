@@ -16,6 +16,7 @@ void init_player(Player* player, uint16_t x, uint16_t y, Animation *initial_anim
     player->animation_up = animations[_player_up];
     player->animation_down = animations[_player_down];
     player->prev_direction = 1;
+    player->current_direction = 1;
 }
 
 void UPDATE(void) {
@@ -23,37 +24,35 @@ void UPDATE(void) {
     update_actor_frame(THIS_PLAYER);
     if(joypad() & J_RIGHT) {
         move_actor(THIS_PLAYER, 10, 0);
-        THIS_PLAYER->prev_direction = 1;
         if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_sides){
             set_actor_animation(THIS_PLAYER->animation_sides);
         }
-        if(THIS_PLAYER->prev_direction != 1){
-            THIS_ANIMATION = THIS_PLAYER->base.current_animation;
-        }
+        THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
+        THIS_PLAYER->current_direction = 1;
     }
     if(joypad() & J_LEFT) {
         move_actor(THIS_PLAYER, -10, 0);
-        THIS_PLAYER->prev_direction = 3;
         if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_sides){
             set_actor_animation(THIS_PLAYER->animation_sides);
         }
-        if(THIS_PLAYER->prev_direction != 3){
-            THIS_ANIMATION = THIS_PLAYER->base.current_animation;
-        }
+        THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
+        THIS_PLAYER->current_direction = 3;
     }
     if(joypad() & J_UP) {
         move_actor(THIS_PLAYER, 0, -10);
-        THIS_PLAYER->prev_direction = 0;
         if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_up){
             set_actor_animation(THIS_PLAYER->animation_up);
         }
+        THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
+        THIS_PLAYER->current_direction = 0;
     }
     if(joypad() & J_DOWN) {
         move_actor(THIS_PLAYER, 0, 10);
-        THIS_PLAYER->prev_direction = 2;
         if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_down){
             set_actor_animation(THIS_PLAYER->animation_down);
         }
+        THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
+        THIS_PLAYER->current_direction = 2;
     }
     if(joypad() & J_A) {
         move_bkg(0, 0);
@@ -72,7 +71,10 @@ void UPDATE(void) {
         }
     }
     
-    if(THIS_PLAYER->prev_direction == 3){
+    if(THIS_PLAYER->prev_direction == 3 && THIS_PLAYER->current_direction == 1){
+        flip_animation_metasprite(0, 0);
+    }
+    else if(THIS_PLAYER->prev_direction != 3 && THIS_PLAYER->current_direction == 3){
         flip_animation_metasprite(1, 0);
     }
     update_camera(THIS_PLAYER->base.x, THIS_PLAYER->base.y);

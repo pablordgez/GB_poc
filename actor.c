@@ -22,20 +22,22 @@ void set_animation_context(Actor *actor) {
 }
 
 void move_actor(Actor *actor, int8_t dx, int8_t dy) {
-  if (dx < 0 && dx * -1 > actor->x) {
-    actor->x = 0;
+  uint8_t half_width = get_half_width() << 4;
+  uint8_t half_height = get_half_height() << 4;
+  if (dx < 0 && dx * -1 + half_width > actor->x) {
+    actor->x = half_width;
   } else {
     actor->x += dx;
   }
-  if (dy < 0 && dy * -1 > actor->y) {
-    actor->y = 0;
+  if (dy < 0 && dy * -1 + half_height > actor->y) {
+    actor->y = half_height;
   } else {
     actor->y += dy;
   }
-  if (actor->x > 4096)
-    actor->x = 4096;
-  if (actor->y > 4096)
-    actor->y = 4096;
+  if (actor->x > 4096 - half_width)
+    actor->x = 4096 - half_width;
+  if (actor->y > 4096 - half_height)
+    actor->y = 4096 - half_height;
 }
 
 void draw_actor(void) {

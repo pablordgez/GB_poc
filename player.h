@@ -8,6 +8,7 @@ typedef struct player
     Animation* animation_up;
     Animation* animation_down;
     uint8_t prev_direction;
+    uint8_t current_direction;
 } Player;
 
 void init_player(Player* player, uint16_t x, uint16_t y, Animation *initial_animation);
