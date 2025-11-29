@@ -22,3 +22,7 @@ void UPDATE(void) {
         }
     }
 }
+
+void HANDLE_COLLISION(void){
+    // No collision handling for this NPC
+}

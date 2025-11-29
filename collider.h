@@ -4,10 +4,13 @@
 #include "collider_declarations.h"
 #include "main_definitions.h"
 typedef struct {
-    uint8_t x;
-    uint8_t y;
-    uint8_t type;
+    uint16_t x;
+    uint16_t y;
+    uint16_t type;
+    uint8_t is_blocking;
 } Collider;
 
-Collider* THIS_COLLIDER;
+extern Collider* THIS_COLLIDER;
+extern Collider* THIS_COLLIDER_DETECTED;
+
 #endif /* COLLIDER_H */

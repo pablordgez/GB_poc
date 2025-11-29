@@ -80,3 +80,8 @@ void UPDATE(void) {
     update_camera(THIS_PLAYER->base.x, THIS_PLAYER->base.y);
     
 }
+
+
+void HANDLE_COLLISION(void){
+    // No collision handling for this NPC
+}

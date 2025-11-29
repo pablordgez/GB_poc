@@ -8,6 +8,7 @@
 #include "main_definitions.h"
 #include "actor_manager.h"
 #include "movement_npc.h"
+#include "box_collider.h"
 void main(void)
 {
 
@@ -24,7 +25,8 @@ void main(void)
     init_space_manager(&sprite_manager, MAX_HARDWARE_SPRITES);
     init_space_manager(&sprite_tile_manager, 128);
     animation_initialization();
-    init_actors_update_functions();
+    init_actor_functions();
+    init_collider_functions();
     Player p;
     init_player(&p, 1280, 1152, animations[_player_sides]);
     Movement_NPC a, b, c, d;
@@ -32,6 +34,8 @@ void main(void)
     init_movement_npc(&b, 3000, 1152, animations[_no_movement]);
     init_movement_npc(&c, 1280, 300, animations[_no_movement]);
     init_movement_npc(&d, 1280, 3000, animations[_no_movement]);
+    BoxCollider box_collider;
+    init_box_collider(&box_collider, 300, 1152, 8, 8, 1);
 
     Map map;
     init_map(&map, 32, 32, map1_tileset, map1_tilemap);

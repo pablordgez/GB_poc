@@ -8,5 +8,5 @@ typedef struct {
     uint8_t height;
 } BoxCollider;
 
-void init_box_collider(BoxCollider* box_collider, uint8_t x, uint8_t y, uint8_t width, uint8_t height);
+void init_box_collider(BoxCollider* box_collider, uint16_t x, uint16_t y, uint8_t width, uint8_t height, uint8_t is_blocking);
 #endif /* BOX_COLLIDER_H */

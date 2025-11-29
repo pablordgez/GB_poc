@@ -8,6 +8,8 @@
 #include <gb/metasprites.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include "collider.h"
+#include "collider_manager.h"
 
 typedef struct {
   uint16_t x;

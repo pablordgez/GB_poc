@@ -4,6 +4,8 @@
 #include <gb/gb.h>
 #include "actor.h"
 #include "main_definitions.h"
+#include "collider.h"
+#include "collider_declarations.h"
 
 
 

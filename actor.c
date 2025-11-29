@@ -26,18 +26,35 @@ void move_actor(Actor *actor, int8_t dx, int8_t dy) {
   uint8_t half_height = get_half_height() << 4;
   if (dx < 0 && dx * -1 + half_width > actor->x) {
     actor->x = half_width;
-  } else {
+  } else if (dx != 0) {
     actor->x += dx;
-  }
-  if (dy < 0 && dy * -1 + half_height > actor->y) {
+    if (actor->x > 4096 - half_width){
+      actor->x = 4096 - half_width;
+    }
+    if(check_blocking_collisions()){
+      if(dx > 0){
+        actor->x = THIS_COLLIDER_DETECTED->x - half_width;
+      } else{
+        actor->x = collider_right_functions[THIS_COLLIDER_DETECTED->type]() + half_width;
+      }
+    }
+  } else if (dy < 0 && dy * -1 + half_height > actor->y) {
     actor->y = half_height;
   } else {
     actor->y += dy;
+    if (actor->y > 4096 - half_height){
+      actor->y = 4096 - half_height;
+    }
+    if(check_blocking_collisions()){
+      if(dy > 0){
+        actor->y = THIS_COLLIDER_DETECTED->y - half_height;
+      } else{
+        actor->y = collider_bottom_functions[THIS_COLLIDER_DETECTED->type]() + half_height;
+      }
+    }
   }
-  if (actor->x > 4096 - half_width)
-    actor->x = 4096 - half_width;
-  if (actor->y > 4096 - half_height)
-    actor->y = 4096 - half_height;
+  
+  
 }
 
 void draw_actor(void) {
