@@ -20,6 +20,10 @@ typedef struct {
     uint8_t height;
     uint8_t props;
     uint8_t cached;
+    uint8_t padding_left;
+    uint8_t padding_right;
+    uint8_t padding_top;
+    uint8_t padding_bottom;
 } Animation;
 
 
@@ -36,8 +40,8 @@ extern Animation* THIS_ANIMATION;
 extern AnimationRuntimeData* THIS_ANIMATION_RUNTIME_DATA;
 
 void sub_init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id);
-void init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id);
-void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id, uint8_t width, uint8_t height);
+void init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id, uint8_t padding_left, uint8_t padding_right, uint8_t padding_top, uint8_t padding_bottom);
+void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id, uint8_t width, uint8_t height, uint8_t padding_left, uint8_t padding_right, uint8_t padding_top, uint8_t padding_bottom);
 void init_animation_runtime_data(AnimationRuntimeData* anim_data);
 void load_animation(Animation* anim, uint8_t x, uint8_t y);
 void update_animation(void);

@@ -33,23 +33,24 @@ void move_actor(Actor *actor, int8_t dx, int8_t dy) {
     }
     if(check_blocking_collisions()){
       if(dx > 0){
-        actor->x = THIS_COLLIDER_DETECTED->x - half_width;
+        actor->x = THIS_COLLIDER_DETECTED->x - half_width + (THIS_ACTOR->current_animation->padding_right << 4);
       } else{
-        actor->x = collider_right_functions[THIS_COLLIDER_DETECTED->type]() + half_width;
+        actor->x = collider_right_functions[THIS_COLLIDER_DETECTED->type]() + half_width - (THIS_ACTOR->current_animation->padding_left << 4);
       }
     }
-  } else if (dy < 0 && dy * -1 + half_height > actor->y) {
+  } 
+  if (dy < 0 && dy * -1 + half_height > actor->y) {
     actor->y = half_height;
-  } else {
+  } else if (dy != 0) {
     actor->y += dy;
     if (actor->y > 4096 - half_height){
       actor->y = 4096 - half_height;
     }
     if(check_blocking_collisions()){
       if(dy > 0){
-        actor->y = THIS_COLLIDER_DETECTED->y - half_height;
+        actor->y = THIS_COLLIDER_DETECTED->y - half_height + (THIS_ACTOR->current_animation->padding_bottom << 4);
       } else{
-        actor->y = collider_bottom_functions[THIS_COLLIDER_DETECTED->type]() + half_height;
+        actor->y = collider_bottom_functions[THIS_COLLIDER_DETECTED->type]() + half_height - (THIS_ACTOR->current_animation->padding_top << 4);
       }
     }
   }

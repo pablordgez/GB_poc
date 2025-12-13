@@ -13,15 +13,23 @@ void sub_init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, 
 }
 
 
-void init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id) {
+void init_animation(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id, uint8_t padding_left, uint8_t padding_right, uint8_t padding_top, uint8_t padding_bottom) {
     sub_init_animation(anim, num_frames, frame_dur, animation_id);
+    anim->padding_left = padding_left;
+    anim->padding_right = padding_right;
+    anim->padding_top = padding_top;
+    anim->padding_bottom = padding_bottom;
     anim->metasprite = (void*)0;
 }
 
-void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id, uint8_t width, uint8_t height){
+void init_animation_metasprite(Animation* anim, uint8_t num_frames, uint8_t frame_dur, uint8_t animation_id, uint8_t width, uint8_t height, uint8_t padding_left, uint8_t padding_right, uint8_t padding_top, uint8_t padding_bottom){
     sub_init_animation(anim, num_frames, frame_dur, animation_id);
     anim->width = width;
     anim->height = height;
+    anim->padding_left = padding_left;
+    anim->padding_right = padding_right;
+    anim->padding_top = padding_top;
+    anim->padding_bottom = padding_bottom;
     metasprite_t* anim_metasprite = malloc(sizeof(metasprite_t) * (anim->width * anim->height + 1));
     if(anim_metasprite == (void*)0) {
         return; // Memory allocation failed
@@ -172,16 +180,16 @@ void hide_animation(void){
 
 uint8_t get_half_width(void){
     if(THIS_ANIMATION->metasprite == (void*)0){
-        return 8; // Standard sprite width is 8 pixels
+        return 4; // Standard sprite width is 8 pixels
     } else {
-        return (THIS_ANIMATION->width * 8) >> 1;
+        return (THIS_ANIMATION->width << 3) >> 1;
     }
 }
 
 uint8_t get_half_height(void){
     if(THIS_ANIMATION->metasprite == (void*)0){
-        return 8; // Standard sprite height is 8 pixels
+        return 4; // Standard sprite height is 8 pixels
     } else {
-        return (THIS_ANIMATION->height * 8) >> 1;
+        return (THIS_ANIMATION->height << 3) >> 1;
     }
 }

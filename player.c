@@ -21,39 +21,72 @@ void init_player(Player* player, uint16_t x, uint16_t y, Animation *initial_anim
 
 void UPDATE(void) {
     Player* THIS_PLAYER = (Player*)THIS_ACTOR;
+    uint8_t input = joypad();
     update_actor_frame(THIS_PLAYER);
-    if(joypad() & J_RIGHT) {
-        move_actor(THIS_PLAYER, 10, 0);
+    int8_t dx = 0;
+    int8_t dy = 0;
+    if(input & J_RIGHT) {
+        dx = 10;
+    }
+    if(input & J_LEFT) {
+        dx = -10;
+    }
+    if(input & J_UP) {
+        dy = -10;
+    }
+    if(input & J_DOWN) {
+        dy = 10;
+    }
+
+    if(dx != 0 && dy != 0) {
+        if(dx > 0) {
+            dx = 7;
+        } else {
+            dx = -7;
+        }
+        if(dy > 0) {
+            dy = 7;
+            if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_down){
+                set_actor_animation(THIS_PLAYER->animation_down);
+                THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
+                THIS_PLAYER->current_direction = 2;
+            }
+        } else {
+            dy = -7;
+            if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_up){
+                set_actor_animation(THIS_PLAYER->animation_up);
+                THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
+                THIS_PLAYER->current_direction = 0;
+            }
+        }
+    } else if(dx != 0) {
         if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_sides){
             set_actor_animation(THIS_PLAYER->animation_sides);
         }
-        THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
-        THIS_PLAYER->current_direction = 1;
-    }
-    if(joypad() & J_LEFT) {
-        move_actor(THIS_PLAYER, -10, 0);
-        if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_sides){
-            set_actor_animation(THIS_PLAYER->animation_sides);
+        if(dx > 0) {
+            THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
+            THIS_PLAYER->current_direction = 1;
+        } else {
+            THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
+            THIS_PLAYER->current_direction = 3;
         }
-        THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
-        THIS_PLAYER->current_direction = 3;
-    }
-    if(joypad() & J_UP) {
-        move_actor(THIS_PLAYER, 0, -10);
-        if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_up){
-            set_actor_animation(THIS_PLAYER->animation_up);
+    } else if(dy != 0) {
+        if(dy > 0) {
+            if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_down){
+                set_actor_animation(THIS_PLAYER->animation_down);
+                THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
+                THIS_PLAYER->current_direction = 2;
+            }
+        } else {
+            if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_up){
+                set_actor_animation(THIS_PLAYER->animation_up);
+                THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
+                THIS_PLAYER->current_direction = 0;
+            }
         }
-        THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
-        THIS_PLAYER->current_direction = 0;
     }
-    if(joypad() & J_DOWN) {
-        move_actor(THIS_PLAYER, 0, 10);
-        if(THIS_PLAYER->base.current_animation != THIS_PLAYER->animation_down){
-            set_actor_animation(THIS_PLAYER->animation_down);
-        }
-        THIS_PLAYER->prev_direction = THIS_PLAYER->current_direction;
-        THIS_PLAYER->current_direction = 2;
-    }
+    move_actor(THIS_PLAYER, dx, dy);
+
     if(joypad() & J_A) {
         move_bkg(0, 0);
         printf("Player position: (%u, %u)\n", THIS_PLAYER->base.x, THIS_PLAYER->base.y);
