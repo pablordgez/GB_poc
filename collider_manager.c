@@ -40,6 +40,7 @@ uint8_t check_blocking_collisions(void){
         THIS_COLLIDER = active_blocking_colliders[i];
         if(collider_check_functions[THIS_COLLIDER->type]()){
             THIS_COLLIDER_DETECTED = THIS_COLLIDER;
+            collider_handle_functions[THIS_ACTOR->actor_type_id]();
             return 1;
         }
     }

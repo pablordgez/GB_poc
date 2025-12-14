@@ -8,6 +8,7 @@ typedef struct {
     uint16_t y;
     uint16_t type;
     uint8_t is_blocking;
+    uint8_t id;
 } Collider;
 
 extern Collider* THIS_COLLIDER;

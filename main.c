@@ -35,7 +35,7 @@ void main(void)
     init_movement_npc(&c, 1280, 300, animations[_no_movement]);
     init_movement_npc(&d, 1280, 3000, animations[_no_movement]);
     BoxCollider box_collider;
-    init_box_collider(&box_collider, 300, 1152, 8, 8, 1);
+    init_box_collider(&box_collider, 300, 1152, 8, 8, 1, 1);
 
     Map map;
     init_map(&map, 32, 32, map1_tileset, map1_tilemap);
@@ -50,6 +50,7 @@ void main(void)
     while(1) {
         vsync();
         update_actors();
+        check_collisions();
         prev_joy = joypad();
         
         

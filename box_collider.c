@@ -1,11 +1,12 @@
 #include "box_collider.h"
-void init_box_collider(BoxCollider* box_collider, uint16_t x, uint16_t y, uint8_t width, uint8_t height, uint8_t is_blocking){
+void init_box_collider(BoxCollider* box_collider, uint16_t x, uint16_t y, uint8_t width, uint8_t height, uint8_t is_blocking, uint8_t id){
     box_collider->base.x = x;
     box_collider->base.y = y;
     box_collider->base.type = COLLIDER_ID;
     box_collider->width = width;
     box_collider->height = height;
     box_collider->base.is_blocking = is_blocking;
+    box_collider->base.id = id;
     enable_collider((Collider*)box_collider);
 }
 
