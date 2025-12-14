@@ -6,6 +6,7 @@
 #include "main_definitions.h"
 #include "collider.h"
 #include "collider_declarations.h"
+#include "collider_manager.h"
 
 
 

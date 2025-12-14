@@ -116,5 +116,7 @@ void UPDATE(void) {
 
 
 void HANDLE_COLLISION(void){
-    // No collision handling for this NPC
+    if(THIS_COLLIDER_DETECTED->id == 2 && !THIS_ACTOR->was_colliding){
+        play_note(MI, 1000, HIGH);
+    }
 }

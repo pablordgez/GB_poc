@@ -20,6 +20,7 @@ typedef struct {
   AnimationRuntimeData *current_animation_runtime_data;
   uint8_t enabled;
   uint8_t actor_type_id;
+  uint8_t was_colliding;
 } Actor;
 
 extern Actor *THIS_ACTOR;

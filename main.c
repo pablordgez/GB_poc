@@ -9,6 +9,8 @@
 #include "actor_manager.h"
 #include "movement_npc.h"
 #include "box_collider.h"
+#include "music_player.h"
+
 void main(void)
 {
 
@@ -34,8 +36,9 @@ void main(void)
     init_movement_npc(&b, 3000, 1152, animations[_no_movement]);
     init_movement_npc(&c, 1280, 300, animations[_no_movement]);
     init_movement_npc(&d, 1280, 3000, animations[_no_movement]);
-    BoxCollider box_collider;
+    BoxCollider box_collider, piano_collider;
     init_box_collider(&box_collider, 300, 1152, 8, 8, 1, 1);
+    init_box_collider(&piano_collider, 0, 2550, 32, 8, 0, 2);
 
     Map map;
     init_map(&map, 32, 32, map1_tileset, map1_tilemap);
@@ -47,12 +50,12 @@ void main(void)
     uint8_t changed_palette = 0;
     prev_joy = 0;
 
+    music_player_init();
+
     while(1) {
         vsync();
         update_actors();
-        check_collisions();
+        music_update();
         prev_joy = joypad();
-        
-        
     }
 }

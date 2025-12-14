@@ -53,6 +53,9 @@ void check_collisions(void){
         if(collider_check_functions[THIS_COLLIDER->type]()){
             THIS_COLLIDER_DETECTED = THIS_COLLIDER;
             collider_handle_functions[THIS_ACTOR->actor_type_id]();
+            THIS_ACTOR->was_colliding = 1;
+        } else{
+            THIS_ACTOR->was_colliding = 0;
         }
     }
 }

@@ -1,6 +1,7 @@
 #include "actor.h"
 #include "actor_manager.h"
 #include "animation_declarations.h"
+#include "music_player.h"
 typedef struct player
 {
     Actor base;

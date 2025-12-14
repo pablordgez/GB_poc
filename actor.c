@@ -11,6 +11,7 @@ void init_actor(Actor *actor, uint16_t x, uint16_t y,
   actor->drawY = (y >> 4) + 16;
   actor->current_animation = initial_animation;
   actor->current_animation_runtime_data = malloc(sizeof(AnimationRuntimeData));
+  actor->was_colliding = 0;
   init_animation_runtime_data(actor->current_animation_runtime_data);
   set_animation_context(actor);
   load_animation(initial_animation, actor->drawX, actor->drawY);
