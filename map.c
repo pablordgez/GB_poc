@@ -12,8 +12,8 @@ void init_map(Map* map, uint16_t width, uint16_t height,
     }
 
 
-    uint8_t draw_w = SCREEN_WIDTH + 1; 
-    uint8_t draw_h = SCREEN_HEIGHT + 1;
+    uint8_t draw_w = (SCREEN_WIDTH >> 3) + 1; 
+    uint8_t draw_h = (SCREEN_HEIGHT >> 3) + 1;
     if (draw_w > width) draw_w = width;
     if (draw_h > height) draw_h = height;
 
