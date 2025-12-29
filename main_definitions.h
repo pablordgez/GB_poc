@@ -3,7 +3,8 @@
 #include "space_manager.h"
 #include "actor_declarations.h"
 #include "collider_declarations.h"
-
+#define SCREEN_WIDTH 160
+#define SCREEN_HEIGHT 144
 #define _CONCAT_DELAY(A,B) A ## B
 #define CONCAT(A,B) _CONCAT_DELAY(A,B)
 #define ACTOR_ID CONCAT(_, FILE_NAME)

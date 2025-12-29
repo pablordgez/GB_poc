@@ -1,13 +1,15 @@
+#ifndef MAP_H
+#define MAP_H
 #include <stdint.h>
 #include <gb/gb.h>
+#include "main_definitions.h"
 #define TILE_SIZE_BYTES 16
-typedef struct Map{
-    int width;
-    int height;
-    uint8_t* map_data;
+typedef struct {
+    uint16_t width;
+    uint16_t height;
+    const uint8_t* map_data;
 } Map;
 
 
-void init_map(Map* map, int width, int height, uint8_t* tiles, uint8_t* map_data);
-uint8_t get_map_tile_index(Map* map, int x, int y);
-void set_map_tile(Map* map, int x, int y, uint8_t tile_index);
+void init_map(Map* map, uint16_t width, uint16_t height, uint8_t* tiles, uint8_t num_tiles, const uint8_t* map_data);
+#endif /* MAP_H */

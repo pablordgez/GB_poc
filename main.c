@@ -10,6 +10,7 @@
 #include "movement_npc.h"
 #include "box_collider.h"
 #include "music_player.h"
+#include "camera.h"
 
 void main(void)
 {
@@ -41,7 +42,9 @@ void main(void)
     init_box_collider(&piano_collider, 0, 2550, 32, 8, 0, 2);
 
     Map map;
-    init_map(&map, 32, 32, map1_tileset, map1_tilemap);
+    init_map(&map, 32, 32, map1_tileset, 3, map1_tilemap);
+    set_active_map(&map);
+    
 
     DISPLAY_ON;
     SHOW_BKG;
