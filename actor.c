@@ -29,8 +29,8 @@ void move_actor(Actor *actor, int8_t dx, int8_t dy) {
     actor->x = half_width;
   } else if (dx != 0) {
     actor->x += dx;
-    if (actor->x > 4096 - half_width){
-      actor->x = 4096 - half_width;
+    if (actor->x > (active_map->width << 7 ) - half_width){
+      actor->x = (active_map->width << 7 ) - half_width;
     }
     if(check_blocking_collisions()){
       if(dx > 0){
@@ -44,8 +44,8 @@ void move_actor(Actor *actor, int8_t dx, int8_t dy) {
     actor->y = half_height;
   } else if (dy != 0) {
     actor->y += dy;
-    if (actor->y > 4096 - half_height){
-      actor->y = 4096 - half_height;
+    if (actor->y > (active_map->height << 7 ) - half_height){
+      actor->y = (active_map->height << 7 ) - half_height;
     }
     if(check_blocking_collisions()){
       if(dy > 0){

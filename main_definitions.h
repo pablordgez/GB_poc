@@ -3,6 +3,7 @@
 #include "space_manager.h"
 #include "actor_declarations.h"
 #include "collider_declarations.h"
+
 #define SCREEN_WIDTH 160
 #define SCREEN_HEIGHT 144
 #define _CONCAT_DELAY(A,B) A ## B
@@ -47,6 +48,8 @@ void init_collider_functions(void);
 
 extern uint8_t prev_joy;
 extern uint8_t in_debug;
+
+extern const AssetEntry map_assets [];
 
 
 

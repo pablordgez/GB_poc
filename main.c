@@ -11,6 +11,7 @@
 #include "box_collider.h"
 #include "music_player.h"
 #include "camera.h"
+#include "map_declarations.h"
 
 void main(void)
 {
@@ -28,6 +29,7 @@ void main(void)
     init_space_manager(&sprite_manager, MAX_HARDWARE_SPRITES);
     init_space_manager(&sprite_tile_manager, 128);
     animation_initialization();
+    map_initialization();
     init_actor_functions();
     init_collider_functions();
     Player p;
@@ -41,9 +43,9 @@ void main(void)
     init_box_collider(&box_collider, 300, 1152, 8, 8, 1, 1);
     init_box_collider(&piano_collider, 0, 2550, 32, 8, 0, 2);
 
-    Map map;
-    init_map(&map, 32, 32, map1_tileset, 3, map1_tilemap);
-    set_active_map(&map);
+
+    load_map(maps[_map1_], map1_tileset, 3);
+    set_active_map(maps[_map1_]);
     
 
     DISPLAY_ON;
